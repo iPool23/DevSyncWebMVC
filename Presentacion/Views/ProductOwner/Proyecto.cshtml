@@ -1,0 +1,68 @@
+﻿
+@{
+    ViewBag.Title = "Proyecto";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<!-- Breadcumb del proyecto -->
+<ol class="flex items-center py-2">
+    <li class="inline-flex items-center">
+        <a href="@Url.Action("", "ProductOwner")" class="flex items-center text-sm text-gray-500 hover:text-blue-800 focus:outline-none focus:text-blue-600">
+            <i class="fas fa-house-user shrink-0 me-3 size-4 w-4 h-4"></i>
+            Panel de Control
+        </a>
+        <i class="fas fa-angle-right shrink-0 mx-2 size-4 text-gray-500"></i>
+    </li>
+    <li class="inline-flex items-center text-sm font-semibold text-gray-800 truncate" aria-current="page">
+        Mis Proyectos
+    </li>
+    <!-- Crear nuevo proyecto -->
+    <div class="ml-auto">
+        <button class="bg-blue-500 hover:bg-blue-600 text-white text-sm font-semibold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-300">
+            Crear Nuevo Proyecto
+        </button>
+    </div>
+</ol>
+
+<div class="w-full mt-2 bg-white rounded-xl">
+    <div class="flex">
+        <!-- Imagen del proyecto -->
+        <div class="flex-shrink-0">
+            <img class="h-48 w-48 object-cover" src="ruta-de-tu-imagen.jpg" alt="Imagen del proyecto">
+        </div>
+
+        <!-- Contenido -->
+        <div class="p-8 flex-grow">
+            <div class="uppercase tracking-wide text-sm text-gray-500 font-semibold">Código: 123</div>
+            <h2 class="mt-1 text-2xl leading-tight font-bold text-gray-900">
+                Nombre del Proyecto
+            </h2>
+            <p class="mt-2 text-gray-600">Descripción detallada del proyecto.</p>
+
+            <!-- Información -->
+            <div class="mt-4 grid grid-cols-2 gap-4">
+                <div class="flex items-center text-gray-700">
+                    <i class="fas fa-tachometer-alt text-gray-500 w-5 mr-2"></i>
+                    <span class="text-sm">Progreso: 70%</span>
+                </div>
+                <div class="flex items-center text-gray-700">
+                    <i class="fas fa-calendar-alt text-gray-500 w-5 mr-2"></i>
+                    <span class="text-sm">2023-01-01 - 2023-12-31</span>
+                </div>
+                <div class="flex items-center text-gray-700">
+                    <i class="fas fa-code text-gray-500 w-5 mr-2"></i>
+                    <span class="text-sm">Código Líder: 456</span>
+                </div>
+                <div class="flex items-center text-gray-700">
+                    <i class="fas fa-flag text-gray-500 w-5 mr-2"></i>
+                    <span class="text-sm">Estado: Activo</span>
+                </div>
+                <div class="flex items-center text-gray-700 col-span-2">
+                    <i class="fas fa-users text-gray-500 w-5 mr-2"></i>
+                    <span class="text-sm">Nombre de Equipo: Equipo Alfa</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

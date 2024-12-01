@@ -1,0 +1,108 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title | DevSyncWeb</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body class="bg-gray-100 min-h-screen flex">
+    <!-- Sidebar -->
+    <aside id="sidebar" class="bg-blue-950 text-white w-64 flex flex-col h-screen shadow-lg transition-all duration-300 ease-in-out">
+        <!-- Toggle button -->
+        <button id="sidebarToggle" class="p-4 text-white hover:bg-blue-900 transition duration-300 w-full text-left flex items-center">
+            <div class="w-10 flex justify-center">
+                <i class="fas fa-bars"></i>
+            </div>
+            <span class="sidebar-text ml-2">DevSync</span>
+        </button>
+
+        <!-- User profile -->
+        <div class="profile-container p-4 border-b border-gray-700 flex items-center">
+            <div class="w-10 flex justify-center">
+                <img src="@Url.Content("~/Content/Images/default-avatar.png")"
+                     alt="Usuario"
+                     class="profile-image w-8 h-8 rounded-full object-cover transition-all duration-300">
+            </div>
+            <div class="sidebar-text ml-2 flex flex-col overflow-hidden">
+                <h1 class="text-lg font-bold truncate">@User.Identity.Name</h1>
+                <p class="text-sm text-gray-400 truncate">@ViewBag.UserRole</p>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="flex-1 p-4 overflow-y-auto">
+            <ul class="space-y-2">
+                <li>
+                    <a href="@Url.Action("Proyecto", "ProductOwner")" class="flex items-center px-4 py-2 rounded hover:bg-blue-700 transition duration-300">
+                        <div class="w-10 flex justify-center">
+                            <i class="fas fa-project-diagram"></i>
+                        </div>
+                        <span class="sidebar-text ml-2 truncate">Gestionar Proyectos</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Sprints", "Index")" class="flex items-center px-4 py-2 rounded hover:bg-blue-700 transition duration-300">
+                        <div class="w-10 flex justify-center">
+                            <i class="fas fa-tasks"></i>
+                        </div>
+                        <span class="sidebar-text ml-2 truncate">Gestionar Sprints</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Activities", "Index")" class="flex items-center px-4 py-2 rounded hover:bg-blue-700 transition duration-300">
+                        <div class="w-10 flex justify-center">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <span class="sidebar-text ml-2 truncate">Gestionar Actividades</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Resources", "Index")" class="flex items-center px-4 py-2 rounded hover:bg-blue-700 transition duration-300">
+                        <div class="w-10 flex justify-center">
+                            <i class="fas fa-box-open"></i>
+                        </div>
+                        <span class="sidebar-text ml-2 truncate">Gestionar Insumos</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Tasks", "Index")" class="flex items-center px-4 py-2 rounded hover:bg-blue-700 transition duration-300">
+                        <div class="w-10 flex justify-center">
+                            <i class="fas fa-clipboard-list"></i>
+                        </div>
+                        <span class="sidebar-text ml-2 truncate">Gestionar Tareas</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Logout button -->
+        <div class="p-4 mt-auto border-t border-gray-700">
+            @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+            {
+                @Html.AntiForgeryToken()
+                <button type="submit" class="flex items-center justify-center px-4 py-2 bg-red-600 rounded text-white hover:bg-red-500 transition duration-300 w-full">
+                    <div class="w-10 flex justify-center">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </div>
+                    <span class="sidebar-text ml-2">Cerrar sesión</span>
+                </button>
+            }
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 px-6 transition-all duration-300">
+        @RenderBody()
+    </main>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/complementos")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
