@@ -1,0 +1,487 @@
+@{
+    ViewBag.Title = "Editar Proyecto";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mx-auto p-6">
+
+
+    <header class="flex justify-between items-center pb-4 border-b border-gray-200">
+
+        <!-- Botón de insumos-->
+        <div class="w-1/5 border-r border-gray-200">
+            <button onclick="openModalInsumos()" class="w-full py-2 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none">
+                Insumos
+            </button>
+        </div>
+
+        <!-- Título del proyecto-->
+        <h1 class="text-2xl font-bold text-blue-600">Proyecto 1</h1> <!-- Obtener el nombre de la bdd -->
+        <!-- Combo Box de sprints -->
+        <div class="relative flex items-center space-x-2 w-1/4">
+            <!-- Botón "+" -->
+            <button class="font-bold w-8 h-8 bg-green-500 text-white rounded-lg hover:bg-green-600 focus:outline-none flex items-center justify-center self-end">
+                +
+            </button>
+
+            <!-- Combo Box de sprints -->
+            <div class="w-full">
+                <label for="sprintSelector" class="block text-sm font-medium text-gray-700 mb-1">Selecciona un Sprint</label>
+                <div>
+                    <button id="comboboxButton"
+                            onclick="toggleDropdown()"
+                            class="w-full px-4 py-2 bg-gray-100 text-gray-800 font-medium rounded-lg shadow-md hover:bg-gray-200 focus:outline-none flex justify-between items-center">
+                        <span id="selectedSprint">Sprint 1</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                    <ul id="dropdown"
+                        class="absolute mt-2 w-full bg-white shadow-lg rounded-lg py-1 hidden">
+                        <li onclick="selectSprint('Sprint 1')" class="cursor-pointer px-4 py-2 hover:bg-gray-100 text-gray-700">Sprint 1</li>
+                        <li onclick="selectSprint('Sprint 2')" class="cursor-pointer px-4 py-2 hover:bg-gray-100 text-gray-700">Sprint 2</li>
+                        <li onclick="selectSprint('Sprint 3')" class="cursor-pointer px-4 py-2 hover:bg-gray-100 text-gray-700">Sprint 3</li>
+                        <!-- Llenarlo desde la bdd -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </header>
+
+
+
+    <!-- Div con las Actividades separadas por estados -->
+    <div class="flex justify-between items-center mt-6 space-x-4 px-4">
+        <main class="flex-1 p-4 bg-gray-50 rounded-lg shadow">
+
+            <h2 class="text-lg font-semibold text-gray-700 mb-4">Actividades</h2>
+
+            <div class="grid grid-cols-3 gap-4">
+
+                <!-- Nueva -->
+                <div class="bg-white rounded-lg shadow p-4">
+                    <h3 class="text-gray-800 font-medium mb-3">Nuevo</h3>
+                    <div class="grid grid-cols-2 gap-2">
+
+                        <!-- Separar cards en componentes y llenar desde el controlador utilizando la bdd xd-->
+                        <!-- También poner condicional para que solo si es backlog se muestre el botón "tareas"-->
+                        <!-- Sería buena una condicional para que cambie de color según el tipo también :v-->
+                        <div class="bg-blue-200 p-4 h-auto rounded-lg shadow-md flex flex-col justify-between">
+                            <div class="mb-2">
+                                <h3 class="text-lg font-semibold text-gray-800">Actividad1</h3>
+                                <p class="text-sm text-gray-600">Terminar el backlog</p>
+                            </div>
+                            <div class="flex flex-col space-y-2">
+                                <button onclick="openTaskModal()" class="w-full px-4 py-1 bg-blue-500 text-white text-sm font-medium rounded-lg hover:bg-blue-600">
+                                    Tareas
+                                </button>
+                                <div class="flex w-full space-x-2">
+                                    <!-- Botón amarillo -->
+                                    <button onclick="openModal()"
+                                            class="flex-1 min-w-0 px-2 py-1 bg-yellow-500 text-white text-sm font-medium rounded-lg hover:bg-yellow-600 flex justify-center items-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                            <path d="M17.414 2.586a2 2 0 00-2.828 0l-8.586 8.586a1 1 0 00-.293.707v2.586a1 1 0 001 1h2.586a1 1 0 00.707-.293l8.586-8.586a2 2 0 000-2.828zM11 7l2 2m-6 4h.01M4 18h12a1 1 0 001-1v-1a1 1 0 00-1-1H4a1 1 0 00-1 1v1a1 1 0 001 1z" />
+                                        </svg>
+                                    </button>
+
+                                    <!-- Botón rojo -->
+                                    <button class="flex-1 min-w-0 px-2 py-1 bg-red-500 text-white text-sm font-medium rounded-lg hover:bg-red-600 flex justify-center items-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                            <path d="M6 2a1 1 0 000 2h8a1 1 0 100-2H6zm2 4a1 1 0 011 1v9a1 1 0 002 0V7a1 1 0 011-1h4a1 1 0 011 1v9a1 1 0 01-1 1H4a1 1 0 01-1-1V7a1 1 0 011-1h4z" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-orange-200 p-4 h-auto rounded-lg shadow-md flex flex-col justify-between">
+                            <div class="mb-2">
+                                <h3 class="text-lg font-semibold text-gray-800">Bug1</h3>
+                                <p class="text-sm text-gray-600">La página crashea cuando presionas F5</p>
+                            </div>
+                            <div class="flex flex-col space-y-2">
+                                <div class="flex w-full space-x-2">
+                                    <!-- Botón amarillo -->
+                                    <button onclick="openModal()"
+                                            class="flex-1 min-w-0 px-2 py-1 bg-yellow-500 text-white text-sm font-medium rounded-lg hover:bg-yellow-600 flex justify-center items-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                            <path d="M17.414 2.586a2 2 0 00-2.828 0l-8.586 8.586a1 1 0 00-.293.707v2.586a1 1 0 001 1h2.586a1 1 0 00.707-.293l8.586-8.586a2 2 0 000-2.828zM11 7l2 2m-6 4h.01M4 18h12a1 1 0 001-1v-1a1 1 0 00-1-1H4a1 1 0 00-1 1v1a1 1 0 001 1z" />
+                                        </svg>
+                                    </button>
+
+                                    <!-- Botón rojo -->
+                                    <button class="flex-1 min-w-0 px-2 py-1 bg-red-500 text-white text-sm font-medium rounded-lg hover:bg-red-600 flex justify-center items-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                            <path d="M6 2a1 1 0 000 2h8a1 1 0 100-2H6zm2 4a1 1 0 011 1v9a1 1 0 002 0V7a1 1 0 011-1h4a1 1 0 011 1v9a1 1 0 01-1 1H4a1 1 0 01-1-1V7a1 1 0 011-1h4z" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-purple-200 p-4 h-auto rounded-lg shadow-md flex flex-col justify-between">
+                            <div class="mb-2">
+                                <h3 class="text-lg font-semibold text-gray-800">Epic1</h3>
+                                <p class="text-sm text-gray-600">Vender toda la empresa</p>
+                            </div>
+                            <div class="flex flex-col space-y-2">
+                                <div class="flex w-full space-x-2">
+                                    <!-- Botón amarillo -->
+                                    <button onclick="openModal()"
+                                            class="flex-1 min-w-0 px-2 py-1 bg-yellow-500 text-white text-sm font-medium rounded-lg hover:bg-yellow-600 flex justify-center items-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                            <path d="M17.414 2.586a2 2 0 00-2.828 0l-8.586 8.586a1 1 0 00-.293.707v2.586a1 1 0 001 1h2.586a1 1 0 00.707-.293l8.586-8.586a2 2 0 000-2.828zM11 7l2 2m-6 4h.01M4 18h12a1 1 0 001-1v-1a1 1 0 00-1-1H4a1 1 0 00-1 1v1a1 1 0 001 1z" />
+                                        </svg>
+                                    </button>
+
+                                    <!-- Botón rojo -->
+                                    <button class="flex-1 min-w-0 px-2 py-1 bg-red-500 text-white text-sm font-medium rounded-lg hover:bg-red-600 flex justify-center items-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                            <path d="M6 2a1 1 0 000 2h8a1 1 0 100-2H6zm2 4a1 1 0 011 1v9a1 1 0 002 0V7a1 1 0 011-1h4a1 1 0 011 1v9a1 1 0 01-1 1H4a1 1 0 01-1-1V7a1 1 0 011-1h4z" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Llenar desde la bdd -->
+                    </div>
+
+                    <!-- Formulario de crear actividad -->
+                    <button onclick="openModal()" class="mt-4 w-full py-2 bg-green-500 text-white rounded-lg hover:bg-green-600">
+                        Añadir
+                    </button>
+                </div>
+
+                <!-- En Progreso -->
+                <div class="bg-white rounded-lg shadow p-4">
+                    <h3 class="text-gray-800 font-medium mb-3">En Progreso</h3>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div class="bg-gray-200 h-24 rounded-lg"></div>
+                        <!-- Llenar desde la bdd -->
+                    </div>
+                </div>
+
+                <!-- Realizado -->
+                <div class="bg-white rounded-lg shadow p-4">
+                    <h3 class="text-gray-800 font-medium mb-3">Realizado</h3>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div class="bg-gray-200 h-24 rounded-lg"></div>
+                        <div class="bg-gray-200 h-24 rounded-lg"></div>
+                        <!-- Llenar desde la bdd -->
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+
+
+<!-- Formulario de crear nueva actividad -->
+<div id="activityModal" onclick="closeModal(event)" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+    <div onclick="event.stopPropagation()" class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md relative">
+
+        <!-- Botón de cerrar -->
+        <button onclick="closeModal()" class="absolute top-3 right-3 text-gray-500 hover:text-gray-700">
+            x
+        </button>
+
+        <h4 class="text-lg font-semibold text-gray-700 mb-4">Nueva/Editar Actividad</h4>
+
+        <!-- Inputs del formulario (falta agregar lógica para la bdd) -->
+
+        <label class="text-sm text-gray-600 block mb-2">
+            Nombre:
+            <input type="text"
+                   class="w-full mt-1 p-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+                   placeholder="Escribe el nombre" />
+        </label>
+
+        <label class="text-sm text-gray-600 block mb-2">
+            Descripción:
+            <input type="text"
+                   class="w-full mt-1 p-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+                   placeholder="Escribe la descripción" />
+        </label>
+
+        <!-- Combo Box para tipos de actividades -->
+        <div class="text-sm text-gray-600 block mb-2">
+            <label for="activitySelector" class="block text-sm font-medium text-gray-700 mb-1">Selecciona un Tipo de Actividad</label>
+            <div>
+                <button id="activityComboboxButton"
+                        onclick="toggleDropdownTypes()"
+                        class="w-full px-4 py-2 bg-gray-100 text-gray-800 font-medium rounded-lg shadow-md hover:bg-gray-200 focus:outline-none flex justify-between items-center">
+                    <span id="selectedActivityType">Bug</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    </svg>
+                </button>
+                <ul id="activityDropdown"
+                    class="absolute mt-2 w-full bg-white shadow-lg rounded-lg py-1 hidden">
+                    <li onclick="selectActivityType('Bug')" class="cursor-pointer px-4 py-2 hover:bg-gray-100 text-gray-700">Bug</li>
+                    <li onclick="selectActivityType('Feature')" class="cursor-pointer px-4 py-2 hover:bg-gray-100 text-gray-700">Feature</li>
+                    <li onclick="selectActivityType('Epic')" class="cursor-pointer px-4 py-2 hover:bg-gray-100 text-gray-700">Epic</li>
+                    <li onclick="selectActivityType('Backlog')" class="cursor-pointer px-4 py-2 hover:bg-gray-100 text-gray-700">Backlog</li>
+                    <!-- Llenar desde la bdd -->
+                </ul>
+            </div>
+        </div>
+
+        <button class="w-full py-2 bg-green-500 text-white rounded-lg hover:bg-green-600">
+            Crear/ Actualizar
+        </button>
+    </div>
+</div>
+
+
+
+<!-- Formulario para insumos -->
+<div id="InsumoModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden" onclick="closeModalInsumos(event)">
+    <div class="bg-white rounded-lg shadow-lg w-3/4 p-8 relative" onclick="event.stopPropagation()">
+        <!-- Título -->
+        <h2 class="text-2xl font-bold text-gray-800 text-center mb-4">Insumos</h2>
+
+        <!-- Subtítulo -->
+        <p class="text-lg text-gray-600 text-center mb-6">proyecto1 / sprint1</p>
+
+        <!-- Contenido -->
+        <div class="border rounded-lg p-6 bg-blue-100 m-2">
+            <div class="flex justify-between items-start mb-4">
+                <p class="text-gray-800 font-medium">Nombre: RTX4070Super</p>
+                <p class="text-gray-800 font-medium ml-6">Cantidad: 3</p>
+            </div>
+            <div class="flex justify-between items-center">
+                <p class="text-gray-600">Esta es la descripción, me gusta la zurita</p>
+                <div class="flex space-x-4">
+                    <button class="px-4 py-2 bg-yellow-500 text-white text-sm rounded-lg hover:bg-yellow-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M17.414 2.586a2 2 0 00-2.828 0l-8.586 8.586a1 1 0 00-.293.707v2.586a1 1 0 001 1h2.586a1 1 0 00.707-.293l8.586-8.586a2 2 0 000-2.828zM11 7l2 2m-6 4h.01M4 18h12a1 1 0 001-1v-1a1 1 0 00-1-1H4a1 1 0 00-1 1v1a1 1 0 001 1z" />
+                        </svg>
+                    </button>
+                    <button class="px-4 py-2 bg-red-500 text-white text-sm rounded-lg hover:bg-red-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M6 2a1 1 0 000 2h8a1 1 0 100-2H6zm2 4a1 1 0 011 1v9a1 1 0 002 0V7a1 1 0 011-1h4a1 1 0 011 1v9a1 1 0 01-1 1H4a1 1 0 01-1-1V7a1 1 0 011-1h4z" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contenido -->
+        <div class="border rounded-lg p-6 bg-blue-100 m-2">
+            <div class="flex justify-between items-start mb-4">
+                <p class="text-gray-800 font-medium">Nombre: Pilas de litio</p>
+                <p class="text-gray-800 font-medium ml-6">Cantidad: 12</p>
+            </div>
+            <div class="flex justify-between items-center">
+                <p class="text-gray-600">Le quité las pilas a las placas madre para mi reloj y ahora la placa no funciona</p>
+                <div class="flex space-x-4">
+                    <button class="px-4 py-2 bg-yellow-500 text-white text-sm rounded-lg hover:bg-yellow-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M17.414 2.586a2 2 0 00-2.828 0l-8.586 8.586a1 1 0 00-.293.707v2.586a1 1 0 001 1h2.586a1 1 0 00.707-.293l8.586-8.586a2 2 0 000-2.828zM11 7l2 2m-6 4h.01M4 18h12a1 1 0 001-1v-1a1 1 0 00-1-1H4a1 1 0 00-1 1v1a1 1 0 001 1z" />
+                        </svg>
+                    </button>
+                    <button class="px-4 py-2 bg-red-500 text-white text-sm rounded-lg hover:bg-red-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M6 2a1 1 0 000 2h8a1 1 0 100-2H6zm2 4a1 1 0 011 1v9a1 1 0 002 0V7a1 1 0 011-1h4a1 1 0 011 1v9a1 1 0 01-1 1H4a1 1 0 01-1-1V7a1 1 0 011-1h4z" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Botón Añadir -->
+        <div class="mt-6 flex justify-end">
+            <button class="px-6 py-2 bg-green-500 text-white font-medium rounded-lg hover:bg-green-600">
+                Añadir
+            </button>
+        </div>
+
+        <!-- Botón para cerrar el modal -->
+        <button onclick="closeModalInsumos()"
+                class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
+            X
+        </button>
+    </div>
+</div>
+
+
+
+
+<!-- Formulario para tareas -->
+<div id="TaskModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden" onclick="closeTaskModal(event)">
+    <div class="bg-white rounded-lg shadow-lg w-3/4 p-8 relative" onclick="event.stopPropagation()">
+        <!-- Título -->
+        <h2 class="text-2xl font-bold text-gray-800 text-center mb-4">Tareas</h2>
+
+        <!-- Subtítulo -->
+        <p class="text-lg text-gray-600 text-center mb-6">actividad1</p>
+
+        <!-- Contenido -->
+        <div class="border rounded-lg p-6 bg-blue-100 m-2">
+
+            <div class="grid grid-cols-4 gap-4 mb-4">
+                <p class="text-gray-800 font-medium col-span-1">Nombre: Recuperar BDD</p>
+                <p class="text-gray-800 font-medium col-span-1">Inicio: 01/12/2024</p>
+                <p class="text-gray-800 font-medium col-span-1">Prioridad: Alta</p>
+                <p class="text-gray-800 font-medium col-span-1">Usuario: Juan Pérez</p>
+                <p class="text-gray-800 font-medium col-span-1">Progreso: 50%</p>
+                <p class="text-gray-800 font-medium col-span-1">Fin: 05/12/2024</p>
+            </div>
+
+            <div class="flex justify-between items-center">
+                <div>
+                    <p class="text-blue-800 font-medium mb-2">Un compañero borró toda la bdd, debemos buscar si existe algún backup</p>
+                </div>
+                <div class="flex space-x-4">
+                    <button class="px-4 py-2 bg-yellow-500 text-white text-sm rounded-lg hover:bg-yellow-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M17.414 2.586a2 2 0 00-2.828 0l-8.586 8.586a1 1 0 00-.293.707v2.586a1 1 0 001 1h2.586a1 1 0 00.707-.293l8.586-8.586a2 2 0 000-2.828zM11 7l2 2m-6 4h.01M4 18h12a1 1 0 001-1v-1a1 1 0 00-1-1H4a1 1 0 00-1 1v1a1 1 0 001 1z" />
+                        </svg>
+                    </button>
+                    <button class="px-4 py-2 bg-red-500 text-white text-sm rounded-lg hover:bg-red-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M6 2a1 1 0 000 2h8a1 1 0 100-2H6zm2 4a1 1 0 011 1v9a1 1 0 002 0V7a1 1 0 011-1h4a1 1 0 011 1v9a1 1 0 01-1 1H4a1 1 0 01-1-1V7a1 1 0 011-1h4z" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Contenido -->
+        <div class="border rounded-lg p-6 bg-blue-100 m-2">
+
+            <div class="grid grid-cols-4 gap-4 mb-4">
+                <p class="text-gray-800 font-medium col-span-1">Nombre: Comenzar Canal</p>
+                <p class="text-gray-800 font-medium col-span-1">Inicio: 20/06/2077</p>
+                <p class="text-gray-800 font-medium col-span-1">Prioridad: Baja</p>
+                <p class="text-gray-800 font-medium col-span-1">Usuario: Pool Deza</p>
+                <p class="text-gray-800 font-medium col-span-1">Progreso: 0%</p>
+                <p class="text-gray-800 font-medium col-span-1">Fin: 04/12/2077</p>
+            </div>
+
+            <div class="flex justify-between items-center">
+                <div>
+                    <p class="text-blue-800 font-medium mb-2">Renovar la cuenta de Bunny Net para subir tutoriales de PSeint</p>
+                </div>
+                <div class="flex space-x-4">
+                    <button class="px-4 py-2 bg-yellow-500 text-white text-sm rounded-lg hover:bg-yellow-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M17.414 2.586a2 2 0 00-2.828 0l-8.586 8.586a1 1 0 00-.293.707v2.586a1 1 0 001 1h2.586a1 1 0 00.707-.293l8.586-8.586a2 2 0 000-2.828zM11 7l2 2m-6 4h.01M4 18h12a1 1 0 001-1v-1a1 1 0 00-1-1H4a1 1 0 00-1 1v1a1 1 0 001 1z" />
+                        </svg>
+                    </button>
+                    <button class="px-4 py-2 bg-red-500 text-white text-sm rounded-lg hover:bg-red-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M6 2a1 1 0 000 2h8a1 1 0 100-2H6zm2 4a1 1 0 011 1v9a1 1 0 002 0V7a1 1 0 011-1h4a1 1 0 011 1v9a1 1 0 01-1 1H4a1 1 0 01-1-1V7a1 1 0 011-1h4z" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Botón Añadir -->
+        <div class="mt-6 flex justify-end">
+            <button class="px-6 py-2 bg-green-500 text-white font-medium rounded-lg hover:bg-green-600">
+                Añadir
+            </button>
+        </div>
+
+        <!-- Botón para cerrar el modal -->
+        <button onclick="closeTaskModal()" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
+            X
+        </button>
+    </div>
+</div>
+
+
+
+
+
+<!-- JavaScript para el formulario de crear actividad -->
+<script>
+
+    function openModal() {
+        document.getElementById('activityModal').classList.remove('hidden');
+    }
+
+    function closeModal(event) {
+        if (event && event.target !== event.currentTarget) return;
+        document.getElementById('activityModal').classList.add('hidden');
+    }
+</script>
+
+
+<!-- JavaScript para el combobox de sprints -->
+<script>
+    function toggleDropdown() {
+        const dropdown = document.getElementById('dropdown');
+        dropdown.classList.toggle('hidden');
+    }
+
+    function selectSprint(sprintName) {
+        const selectedSprint = document.getElementById('selectedSprint');
+        selectedSprint.textContent = sprintName;
+        toggleDropdown();
+    }
+
+    window.addEventListener('click', function (event) {
+        const dropdown = document.getElementById('dropdown');
+        const button = document.getElementById('comboboxButton');
+        if (!button.contains(event.target) && !dropdown.contains(event.target)) {
+            dropdown.classList.add('hidden');
+        }
+    });
+</script>
+
+
+<!-- JavaScript para el combobox de tipos de actividades -->
+<script>
+    function toggleDropdownTypes() {
+        const dropdown = document.getElementById('activityDropdown');
+        dropdown.classList.toggle('hidden'); // Alterna la visibilidad del dropdown
+    }
+
+    function selectActivityType(activityType) {
+        const selectedActivityType = document.getElementById('selectedActivityType');
+        selectedActivityType.textContent = activityType; // Actualiza el texto con el tipo seleccionado
+        toggleDropdownTypes(); // Cierra el dropdown
+    }
+
+    window.addEventListener('click', function (event) {
+        const dropdown = document.getElementById('activityDropdown');
+        const button = document.getElementById('activityComboboxButton');
+        if (!button.contains(event.target) && !dropdown.contains(event.target)) {
+            dropdown.classList.add('hidden'); // Cierra el dropdown si se hace clic fuera
+        }
+    });
+</script>
+
+
+<!-- Javascript para abrir el botón de insumos -->
+<script>
+    function openModalInsumos() {
+        document.getElementById('InsumoModal').classList.remove('hidden');
+    }
+
+    function closeModalInsumos(event) {
+        if (event) event.stopPropagation();
+        document.getElementById('InsumoModal').classList.add('hidden');
+    }
+</script>
+
+
+<!-- Javascript para abrir el botón de tareas -->
+<script>
+    function openTaskModal() {
+        document.getElementById('TaskModal').classList.remove('hidden');
+    }
+
+    function closeTaskModal(event) {
+        if (event) event.stopPropagation();
+        document.getElementById('TaskModal').classList.add('hidden');
+    }
+</script>

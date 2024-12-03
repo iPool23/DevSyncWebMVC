@@ -17,6 +17,11 @@ namespace Presentacion.Controllers
             return View();
         }
 
+        public ActionResult EditarProyecto()
+        {
+            return View();
+        }
+
         public JsonResult ListarProyectos()
         {
             List<EntProyecto> lista = new List<EntProyecto>();
