@@ -1,0 +1,63 @@
+@{
+    ViewBag.Title = "Listar Actividades";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mx-auto p-6 bg-gray-100 min-h-screen">
+    <!-- Título -->
+    <header class="mb-6">
+        <h1 class="text-3xl font-bold text-blue-600">Lista de Actividades</h1>
+        <p class="text-gray-600">Aquí puedes gestionar las actividades del Sprint 69.</p>
+    </header>
+
+    <!-- Tabla de actividades -->
+    <div class="overflow-x-auto bg-white shadow-md rounded-lg">
+        <table class="w-full text-left border-collapse">
+            <thead>
+                <tr class="bg-blue-600 text-white">
+                    <th class="px-4 py-3">Código</th>
+                    <th class="px-4 py-3">Nombre</th>
+                    <th class="px-4 py-3">Descripción</th>
+                    <th class="px-4 py-3">Progreso</th>
+                    <th class="px-4 py-3">Tipo</th>
+                    <th class="px-4 py-3">Estado</th>
+                    <th class="px-4 py-3 text-center">Acciones</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200">
+                <!-- Fila de ejemplo -->
+                <tr class="hover:bg-gray-50">
+                    <td class="px-4 py-3">1</td>
+                    <td class="px-4 py-3">Diseño de interfaz</td>
+                    <td class="px-4 py-3">Crear wireframes y prototipos.</td>
+                    <td class="px-4 py-3">50%</td>
+                    <td class="px-4 py-3">Backlog</td>
+                    <td class="px-4 py-3">En progreso</td>
+                    <td class="px-4 py-3 text-center space-x-2">
+                        <!-- Botón Tareas (solo para tipo Backlog) -->
+                        <button class="px-3 py-1 text-sm bg-yellow-500 text-white rounded shadow hover:bg-yellow-600 focus:outline-none"
+                                title="Ver Tareas">
+                            Tareas
+                        </button>
+                        <!-- Botón Editar -->
+                        <button class="px-3 py-1 text-sm bg-blue-600 text-white rounded shadow hover:bg-blue-700 focus:outline-none"
+                                title="Editar Actividad">
+                            Editar
+                        </button>
+                        <!-- Botón Eliminar -->
+                        <button class="px-3 py-1 text-sm bg-red-600 text-white rounded shadow hover:bg-red-700 focus:outline-none"
+                                title="Eliminar Actividad">
+                            Eliminar
+                        </button>
+                    </td>
+                </tr>
+                <!-- Más filas dinámicas -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Botón Crear -->
+    <button class="fixed bottom-6 right-6 px-4 py-2 bg-green-600 text-white text-sm font-medium rounded shadow-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-400">
+        Crear
+    </button>
+</div>

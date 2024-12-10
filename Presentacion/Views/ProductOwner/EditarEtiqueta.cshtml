@@ -1,0 +1,42 @@
+@{
+    ViewBag.Title = "Editar Etiqueta";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mx-auto p-6 bg-gray-100 min-h-screen">
+    <!-- Título -->
+    <header class="mb-6">
+        <h1 class="text-3xl font-bold text-blue-600">Editar Etiqueta</h1>
+        <p class="text-gray-600">Modifica los detalles de la etiqueta de la Tarea 1.</p>
+    </header>
+
+    <!-- Formulario -->
+    <form action="/update-etiqueta" method="POST" class="bg-white p-6 shadow-lg rounded-lg space-y-4">
+
+        <!-- Campo Nombre -->
+        <div>
+            <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre</label>
+            <input type="text"
+                   id="nombre"
+                   name="nombre"
+                   class="mt-1 block w-full px-3 py-2 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                   value="Urgente"
+                   required />
+        </div>
+
+        <!-- Botones -->
+        <div class="flex justify-end space-x-4">
+            <!-- Botón Cancelar -->
+            <button type="button"
+                    onclick="window.history.back()"
+                    class="px-4 py-2 bg-gray-400 text-white rounded shadow hover:bg-gray-500">
+                Cancelar
+            </button>
+            <!-- Botón Guardar -->
+            <button type="submit"
+                    class="px-4 py-2 bg-blue-600 text-white rounded shadow hover:bg-blue-700">
+                Guardar
+            </button>
+        </div>
+    </form>
+</div>

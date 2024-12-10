@@ -4,914 +4,112 @@
 }
 
 <div class="container mx-auto p-6">
-
-
+    <!-- Header del Formulario -->
     <header class="flex justify-between items-center pb-4 border-b border-gray-200">
-
-        <!-- Botón de insumos-->
-        <div class="w-1/5 border-r border-gray-200">
-            <button onclick="openModalInsumos()" class="w-full py-2 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none">
-                Insumos
-            </button>
+        <div>
+            <h1 class="text-2xl font-bold text-blue-600">Editar Proyecto</h1>
         </div>
-
-        <!-- Título del proyecto-->
-        <h1 class="text-2xl font-bold text-blue-600">Proyecto 1</h1> <!-- Obtener el nombre de la bdd -->
-        <!-- Combo Box de sprints -->
-        <div class="relative flex items-center space-x-2 w-1/4">
-            <!-- Botón "+" -->
-            <button class="font-bold w-8 h-8 bg-green-500 text-white rounded-lg hover:bg-green-600 focus:outline-none flex items-center justify-center self-end">
-                +
-            </button>
-
-            <!-- Combo Box de sprints -->
-            <div class="w-full">
-                <label for="sprintSelector" class="block text-sm font-medium text-gray-700 mb-1">Selecciona un Sprint</label>
-                <div>
-                    <button id="comboboxButton"
-                            onclick="toggleDropdown()"
-                            class="w-full px-4 py-2 bg-gray-100 text-gray-800 font-medium rounded-lg shadow-md hover:bg-gray-200 focus:outline-none flex justify-between items-center">
-                        <span id="selectedSprint">Sprint 1</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                        </svg>
-                    </button>
-                    <ul id="dropdown"
-                        class="absolute mt-2 w-full bg-white shadow-lg rounded-lg py-1 hidden">
-                        <li onclick="selectSprint('Sprint 1')" class="cursor-pointer px-4 py-2 hover:bg-gray-100 text-gray-700">Sprint 1</li>
-                        <li onclick="selectSprint('Sprint 2')" class="cursor-pointer px-4 py-2 hover:bg-gray-100 text-gray-700">Sprint 2</li>
-                        <li onclick="selectSprint('Sprint 3')" class="cursor-pointer px-4 py-2 hover:bg-gray-100 text-gray-700">Sprint 3</li>
-                        <!-- Llenarlo desde la bdd -->
-                    </ul>
-                </div>
-            </div>
-
-            <button class="font-bold w-8 h-8 bg-red-500 text-white rounded-lg hover:bg-red-600 focus:outline-none flex items-center justify-center self-end">
-                -
-            </button>
-        </div>
-
+        <a href="/proyectos" class="text-sm text-blue-600 hover:underline">Volver a Proyectos</a>
     </header>
 
-
-
-    <!-- Div con las Actividades separadas por estados -->
-    <div class="flex justify-between items-center mt-6 space-x-4 px-4">
-        <main class="flex-1 p-4 bg-gray-50 rounded-lg shadow">
-
-            <h2 class="text-lg font-semibold text-gray-700 mb-4">Actividades</h2>
-
-            <div class="grid grid-cols-3 gap-4">
-
-                <!-- Nueva -->
-                <div class="bg-white rounded-lg shadow p-4">
-                    <h3 class="text-gray-800 font-medium mb-3">Nuevo</h3>
-                    <div class="grid grid-cols-2 gap-2">
-
-                        <!-- Separar cards en componentes y llenar desde el controlador utilizando la bdd xd-->
-                        <!-- También poner condicional para que solo si es backlog se muestre el botón "tareas"-->
-                        <!-- Sería buena una condicional para que cambie de color según el tipo también :v-->
-                        <div class="bg-blue-200 p-4 h-auto rounded-lg shadow-md flex flex-col justify-between">
-                            <div class="mb-2">
-                                <h3 class="text-lg font-semibold text-gray-800">Actividad1</h3>
-                                <p class="text-sm text-gray-600">Terminar el backlog</p>
-                            </div>
-                            <div class="flex flex-col space-y-2">
-                                <button onclick="openTaskModal()" class="w-full px-4 py-1 bg-blue-500 text-white text-sm font-medium rounded-lg hover:bg-blue-600">
-                                    Tareas
-                                </button>
-                                <div class="flex w-full space-x-2">
-                                    <!-- Botón amarillo -->
-                                    <button onclick="openModal()"
-                                            class="flex-1 min-w-0 px-2 py-1 bg-yellow-500 text-white text-sm font-medium rounded-lg hover:bg-yellow-600 flex justify-center items-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                            <path d="M17.414 2.586a2 2 0 00-2.828 0l-8.586 8.586a1 1 0 00-.293.707v2.586a1 1 0 001 1h2.586a1 1 0 00.707-.293l8.586-8.586a2 2 0 000-2.828zM11 7l2 2m-6 4h.01M4 18h12a1 1 0 001-1v-1a1 1 0 00-1-1H4a1 1 0 00-1 1v1a1 1 0 001 1z" />
-                                        </svg>
-                                    </button>
-
-                                    <!-- Botón rojo -->
-                                    <button class="flex-1 min-w-0 px-2 py-1 bg-red-500 text-white text-sm font-medium rounded-lg hover:bg-red-600 flex justify-center items-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                            <path d="M6 2a1 1 0 000 2h8a1 1 0 100-2H6zm2 4a1 1 0 011 1v9a1 1 0 002 0V7a1 1 0 011-1h4a1 1 0 011 1v9a1 1 0 01-1 1H4a1 1 0 01-1-1V7a1 1 0 011-1h4z" />
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="bg-orange-200 p-4 h-auto rounded-lg shadow-md flex flex-col justify-between">
-                            <div class="mb-2">
-                                <h3 class="text-lg font-semibold text-gray-800">Bug1</h3>
-                                <p class="text-sm text-gray-600">La página crashea cuando presionas F5</p>
-                            </div>
-                            <div class="flex flex-col space-y-2">
-                                <div class="flex w-full space-x-2">
-                                    <!-- Botón amarillo -->
-                                    <button onclick="openModal()"
-                                            class="flex-1 min-w-0 px-2 py-1 bg-yellow-500 text-white text-sm font-medium rounded-lg hover:bg-yellow-600 flex justify-center items-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                            <path d="M17.414 2.586a2 2 0 00-2.828 0l-8.586 8.586a1 1 0 00-.293.707v2.586a1 1 0 001 1h2.586a1 1 0 00.707-.293l8.586-8.586a2 2 0 000-2.828zM11 7l2 2m-6 4h.01M4 18h12a1 1 0 001-1v-1a1 1 0 00-1-1H4a1 1 0 00-1 1v1a1 1 0 001 1z" />
-                                        </svg>
-                                    </button>
-
-                                    <!-- Botón rojo -->
-                                    <button class="flex-1 min-w-0 px-2 py-1 bg-red-500 text-white text-sm font-medium rounded-lg hover:bg-red-600 flex justify-center items-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                            <path d="M6 2a1 1 0 000 2h8a1 1 0 100-2H6zm2 4a1 1 0 011 1v9a1 1 0 002 0V7a1 1 0 011-1h4a1 1 0 011 1v9a1 1 0 01-1 1H4a1 1 0 01-1-1V7a1 1 0 011-1h4z" />
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="bg-purple-200 p-4 h-auto rounded-lg shadow-md flex flex-col justify-between">
-                            <div class="mb-2">
-                                <h3 class="text-lg font-semibold text-gray-800">Epic1</h3>
-                                <p class="text-sm text-gray-600">Vender toda la empresa</p>
-                            </div>
-                            <div class="flex flex-col space-y-2">
-                                <div class="flex w-full space-x-2">
-                                    <!-- Botón amarillo -->
-                                    <button onclick="openModal()"
-                                            class="flex-1 min-w-0 px-2 py-1 bg-yellow-500 text-white text-sm font-medium rounded-lg hover:bg-yellow-600 flex justify-center items-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                            <path d="M17.414 2.586a2 2 0 00-2.828 0l-8.586 8.586a1 1 0 00-.293.707v2.586a1 1 0 001 1h2.586a1 1 0 00.707-.293l8.586-8.586a2 2 0 000-2.828zM11 7l2 2m-6 4h.01M4 18h12a1 1 0 001-1v-1a1 1 0 00-1-1H4a1 1 0 00-1 1v1a1 1 0 001 1z" />
-                                        </svg>
-                                    </button>
-
-                                    <!-- Botón rojo -->
-                                    <button class="flex-1 min-w-0 px-2 py-1 bg-red-500 text-white text-sm font-medium rounded-lg hover:bg-red-600 flex justify-center items-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                            <path d="M6 2a1 1 0 000 2h8a1 1 0 100-2H6zm2 4a1 1 0 011 1v9a1 1 0 002 0V7a1 1 0 011-1h4a1 1 0 011 1v9a1 1 0 01-1 1H4a1 1 0 01-1-1V7a1 1 0 011-1h4z" />
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Llenar desde la bdd -->
-                    </div>
-
-                    <!-- Formulario de crear actividad -->
-                    <button onclick="openModal()" class="mt-4 w-full py-2 bg-green-500 text-white rounded-lg hover:bg-green-600">
-                        Añadir
-                    </button>
-                </div>
-
-                <!-- En Progreso -->
-                <div class="bg-white rounded-lg shadow p-4">
-                    <h3 class="text-gray-800 font-medium mb-3">En Progreso</h3>
-                    <div class="grid grid-cols-2 gap-2">
-                        <div class="bg-gray-200 h-24 rounded-lg"></div>
-                        <!-- Llenar desde la bdd -->
-                    </div>
-                </div>
-
-                <!-- Realizado -->
-                <div class="bg-white rounded-lg shadow p-4">
-                    <h3 class="text-gray-800 font-medium mb-3">Realizado</h3>
-                    <div class="grid grid-cols-2 gap-2">
-                        <div class="bg-gray-200 h-24 rounded-lg"></div>
-                        <div class="bg-gray-200 h-24 rounded-lg"></div>
-                        <!-- Llenar desde la bdd -->
-                    </div>
-                </div>
-            </div>
-        </main>
-    </div>
-</div>
-
-
-
-<!-- Formulario de crear nueva actividad -->
-<div id="activityModal" onclick="closeModal(event)" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-    <div onclick="event.stopPropagation()" class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md relative">
-
-        <!-- Botón de cerrar -->
-        <button onclick="closeModal()" class="absolute top-3 right-3 text-gray-500 hover:text-gray-700">
-            x
-        </button>
-
-        <h4 class="text-lg font-semibold text-gray-700 mb-4">Nueva/Editar Actividad</h4>
-
-        <!-- Inputs del formulario (falta agregar lógica para la bdd) -->
-
-        <label class="text-sm text-gray-600 block mb-2">
-            Nombre:
-            <input type="text"
-                   class="w-full mt-1 p-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
-                   placeholder="Escribe el nombre" />
-        </label>
-
-        <label class="text-sm text-gray-600 block mb-2">
-            Descripción:
-            <input type="text"
-                   class="w-full mt-1 p-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
-                   placeholder="Escribe la descripción" />
-        </label>
-
-        <!-- Combo Box para tipos de actividades -->
-        <div class="text-sm text-gray-600 block mb-2">
-            <label for="activitySelector" class="block text-sm font-medium text-gray-700 mb-1">Selecciona un Tipo de Actividad</label>
+    <!-- Formulario -->
+    <div class="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-lg mt-6">
+        <form class="space-y-6">
+            <!-- Nombre del Proyecto -->
             <div>
-                <button id="activityComboboxButton"
-                        onclick="toggleDropdownTypes()"
-                        class="w-full px-4 py-2 bg-gray-100 text-gray-800 font-medium rounded-lg shadow-md hover:bg-gray-200 focus:outline-none flex justify-between items-center">
-                    <span id="selectedActivityType">Bug</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                    </svg>
-                </button>
-                <ul id="activityDropdown"
-                    class="absolute mt-2 w-full bg-white shadow-lg rounded-lg py-1 hidden">
-                    <li onclick="selectActivityType('Bug')" class="cursor-pointer px-4 py-2 hover:bg-gray-100 text-gray-700">Bug</li>
-                    <li onclick="selectActivityType('Feature')" class="cursor-pointer px-4 py-2 hover:bg-gray-100 text-gray-700">Feature</li>
-                    <li onclick="selectActivityType('Epic')" class="cursor-pointer px-4 py-2 hover:bg-gray-100 text-gray-700">Epic</li>
-                    <li onclick="selectActivityType('Backlog')" class="cursor-pointer px-4 py-2 hover:bg-gray-100 text-gray-700">Backlog</li>
-                    <!-- Llenar desde la bdd -->
-                </ul>
-            </div>
-        </div>
-
-        <button class="w-full py-2 bg-green-500 text-white rounded-lg hover:bg-green-600">
-            Crear/ Actualizar
-        </button>
-    </div>
-</div>
-
-
-
-<!-- Formulario para insumos -->
-<div id="InsumoModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden" onclick="closeModalInsumos(event)">
-    <div class="bg-white rounded-lg shadow-lg w-3/4 p-8 relative" onclick="event.stopPropagation()">
-        <!-- Título -->
-        <h2 class="text-2xl font-bold text-gray-800 text-center mb-4">Insumos</h2>
-
-        <!-- Subtítulo -->
-        <p class="text-lg text-gray-600 text-center mb-6">proyecto1 / sprint1</p>
-
-        <!-- Contenido -->
-        <div class="border rounded-lg p-6 bg-blue-100 m-2">
-            <div class="flex justify-between items-start mb-4">
-                <p class="text-gray-800 font-medium">Nombre: RTX4070Super</p>
-                <p class="text-gray-800 font-medium ml-6">Cantidad: 3</p>
-            </div>
-            <div class="flex justify-between items-center">
-                <p class="text-gray-600">Esta es la descripción, me gusta la zurita</p>
-                <div class="flex space-x-4">
-                    <button onclick="openModalCreateInsumo()" class="px-4 py-2 bg-yellow-500 text-white text-sm rounded-lg hover:bg-yellow-600">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path d="M17.414 2.586a2 2 0 00-2.828 0l-8.586 8.586a1 1 0 00-.293.707v2.586a1 1 0 001 1h2.586a1 1 0 00.707-.293l8.586-8.586a2 2 0 000-2.828zM11 7l2 2m-6 4h.01M4 18h12a1 1 0 001-1v-1a1 1 0 00-1-1H4a1 1 0 00-1 1v1a1 1 0 001 1z" />
-                        </svg>
-                    </button>
-                    <button class="px-4 py-2 bg-red-500 text-white text-sm rounded-lg hover:bg-red-600">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path d="M6 2a1 1 0 000 2h8a1 1 0 100-2H6zm2 4a1 1 0 011 1v9a1 1 0 002 0V7a1 1 0 011-1h4a1 1 0 011 1v9a1 1 0 01-1 1H4a1 1 0 01-1-1V7a1 1 0 011-1h4z" />
-                        </svg>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Contenido -->
-        <div class="border rounded-lg p-6 bg-blue-100 m-2">
-            <div class="flex justify-between items-start mb-4">
-                <p class="text-gray-800 font-medium">Nombre: Pilas de litio</p>
-                <p class="text-gray-800 font-medium ml-6">Cantidad: 12</p>
-            </div>
-            <div class="flex justify-between items-center">
-                <p class="text-gray-600">Le quité las pilas a las placas madre para mi reloj y ahora la placa no funciona</p>
-                <div class="flex space-x-4">
-                    <button onclick="openModalCreateInsumo()" class="px-4 py-2 bg-yellow-500 text-white text-sm rounded-lg hover:bg-yellow-600">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path d="M17.414 2.586a2 2 0 00-2.828 0l-8.586 8.586a1 1 0 00-.293.707v2.586a1 1 0 001 1h2.586a1 1 0 00.707-.293l8.586-8.586a2 2 0 000-2.828zM11 7l2 2m-6 4h.01M4 18h12a1 1 0 001-1v-1a1 1 0 00-1-1H4a1 1 0 00-1 1v1a1 1 0 001 1z" />
-                        </svg>
-                    </button>
-                    <button class="px-4 py-2 bg-red-500 text-white text-sm rounded-lg hover:bg-red-600">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path d="M6 2a1 1 0 000 2h8a1 1 0 100-2H6zm2 4a1 1 0 011 1v9a1 1 0 002 0V7a1 1 0 011-1h4a1 1 0 011 1v9a1 1 0 01-1 1H4a1 1 0 01-1-1V7a1 1 0 011-1h4z" />
-                        </svg>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Botón Añadir -->
-        <div class="mt-6 flex justify-end">
-            <button onclick="openModalCreateInsumo()" class="px-6 py-2 bg-green-500 text-white font-medium rounded-lg hover:bg-green-600">
-                Añadir
-            </button>
-        </div>
-
-        <!-- Botón para cerrar el modal -->
-        <button onclick="closeModalInsumos()"
-                class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
-            X
-        </button>
-    </div>
-</div>
-
-
-
-
-<!-- Formulario para tareas -->
-<div id="TaskModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden" onclick="closeTaskModal(event)">
-    <div class="bg-white rounded-lg shadow-lg w-3/4 p-8 relative" onclick="event.stopPropagation()">
-        <!-- Título -->
-        <h2 class="text-2xl font-bold text-gray-800 text-center mb-4">Tareas</h2>
-
-        <!-- Subtítulo -->
-        <p class="text-lg text-gray-600 text-center mb-6">actividad1</p>
-
-        <!-- Contenido -->
-        <div class="border rounded-lg p-6 bg-blue-100 m-2">
-
-            <div class="grid grid-cols-4 gap-4 mb-4">
-                <p class="text-gray-800 font-medium col-span-1">Nombre: Recuperar BDD</p>
-                <p class="text-gray-800 font-medium col-span-1">Inicio: 01/12/2024</p>
-                <p class="text-gray-800 font-medium col-span-1">Prioridad: Alta</p>
-                <p class="text-gray-800 font-medium col-span-1">Usuario: Juan Pérez</p>
-                <p class="text-gray-800 font-medium col-span-1">Progreso: 50%</p>
-                <p class="text-gray-800 font-medium col-span-1">Fin: 05/12/2024</p>
+                <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre del Proyecto</label>
+                <input type="text" id="nombre" name="nombre"
+                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                       placeholder="Ingresa el nombre del proyecto" />
             </div>
 
-            <div class="flex justify-between items-center">
+            <!-- Progreso -->
+            <div>
+                <label for="progreso" class="block text-sm font-medium text-gray-700">Progreso (%)</label>
+                <input type="number" id="progreso" name="progreso" min="0" max="100"
+                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                       placeholder="0 - 100" />
+            </div>
+
+            <!-- Descripción -->
+            <div>
+                <label for="descripcion" class="block text-sm font-medium text-gray-700">Descripción</label>
+                <textarea id="descripcion" name="descripcion" rows="3"
+                          class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                          placeholder="Descripción del proyecto"></textarea>
+            </div>
+
+            <!-- Fechas -->
+            <div class="grid grid-cols-2 gap-4">
                 <div>
-                    <p class="text-blue-800 font-medium mb-2">Un compañero borró toda la bdd, debemos buscar si existe algún backup</p>
+                    <label for="fechaInicio" class="block text-sm font-medium text-gray-700">Fecha de Inicio</label>
+                    <input type="date" id="fechaInicio" name="fechaInicio"
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" />
                 </div>
-                <div class="flex space-x-4">
-                    <button onclick="openModalCreateTask()" class="px-4 py-2 bg-yellow-500 text-white text-sm rounded-lg hover:bg-yellow-600">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path d="M17.414 2.586a2 2 0 00-2.828 0l-8.586 8.586a1 1 0 00-.293.707v2.586a1 1 0 001 1h2.586a1 1 0 00.707-.293l8.586-8.586a2 2 0 000-2.828zM11 7l2 2m-6 4h.01M4 18h12a1 1 0 001-1v-1a1 1 0 00-1-1H4a1 1 0 00-1 1v1a1 1 0 001 1z" />
-                        </svg>
-                    </button>
-                    <button class="px-4 py-2 bg-red-500 text-white text-sm rounded-lg hover:bg-red-600">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path d="M6 2a1 1 0 000 2h8a1 1 0 100-2H6zm2 4a1 1 0 011 1v9a1 1 0 002 0V7a1 1 0 011-1h4a1 1 0 011 1v9a1 1 0 01-1 1H4a1 1 0 01-1-1V7a1 1 0 011-1h4z" />
-                        </svg>
-                    </button>
-                </div>
-            </div>
-
-        </div>
-
-        <!-- Contenido -->
-        <div class="border rounded-lg p-6 bg-blue-100 m-2">
-
-            <div class="grid grid-cols-4 gap-4 mb-4">
-                <p class="text-gray-800 font-medium col-span-1">Nombre: Comenzar Canal</p>
-                <p class="text-gray-800 font-medium col-span-1">Inicio: 20/06/2077</p>
-                <p class="text-gray-800 font-medium col-span-1">Prioridad: Baja</p>
-                <p class="text-gray-800 font-medium col-span-1">Usuario: Pool Deza</p>
-                <p class="text-gray-800 font-medium col-span-1">Progreso: 0%</p>
-                <p class="text-gray-800 font-medium col-span-1">Fin: 04/12/2077</p>
-            </div>
-
-            <div class="flex justify-between items-center">
                 <div>
-                    <p class="text-blue-800 font-medium mb-2">Renovar la cuenta de Bunny Net para subir tutoriales de PSeint</p>
-                </div>
-                <div class="flex space-x-4">
-                    <button onclick="openModalCreateTask()" class="px-4 py-2 bg-yellow-500 text-white text-sm rounded-lg hover:bg-yellow-600">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path d="M17.414 2.586a2 2 0 00-2.828 0l-8.586 8.586a1 1 0 00-.293.707v2.586a1 1 0 001 1h2.586a1 1 0 00.707-.293l8.586-8.586a2 2 0 000-2.828zM11 7l2 2m-6 4h.01M4 18h12a1 1 0 001-1v-1a1 1 0 00-1-1H4a1 1 0 00-1 1v1a1 1 0 001 1z" />
-                        </svg>
-                    </button>
-                    <button class="px-4 py-2 bg-red-500 text-white text-sm rounded-lg hover:bg-red-600">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path d="M6 2a1 1 0 000 2h8a1 1 0 100-2H6zm2 4a1 1 0 011 1v9a1 1 0 002 0V7a1 1 0 011-1h4a1 1 0 011 1v9a1 1 0 01-1 1H4a1 1 0 01-1-1V7a1 1 0 011-1h4z" />
-                        </svg>
-                    </button>
+                    <label for="fechaFin" class="block text-sm font-medium text-gray-700">Fecha de Fin</label>
+                    <input type="date" id="fechaFin" name="fechaFin"
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" />
                 </div>
             </div>
 
-        </div>
-
-        <!-- Botón Añadir -->
-        <div class="mt-6 flex justify-end">
-            <button onclick="openModalCreateTask()" class="px-6 py-2 bg-green-500 text-white font-medium rounded-lg hover:bg-green-600">
-                Añadir
-            </button>
-        </div>
-
-        <!-- Botón para cerrar el modal -->
-        <button onclick="closeTaskModal()" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
-            X
-        </button>
-    </div>
-</div>
-
-
-
-
-
-<!-- Formulario de crear nuevo insumo -->
-<div id="insumoModal" onclick="closeModalCreateInsumo(event)" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-    <div onclick="event.stopPropagation()" class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md relative">
-
-        <!-- Botón de cerrar -->
-        <button onclick="closeModalCreateInsumo()" class="absolute top-3 right-3 text-gray-500 hover:text-gray-700">
-            x
-        </button>
-
-        <h4 class="text-lg font-semibold text-gray-700 mb-4 text-center">Nuevo Insumo/ Insumo1</h4>
-
-        <!-- Inputs del formulario -->
-        <label class="text-sm text-gray-600 block mb-2">
-            Nombres:
-            <input type="text"
-                   class="w-full mt-1 p-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
-                   placeholder="Escribe el nombre" />
-        </label>
-
-        <label class="text-sm text-gray-600 block mb-2">
-            Descripción:
-            <input type="text"
-                   class="w-full mt-1 p-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
-                   placeholder="Escribe la descripción" />
-        </label>
-
-        <label class="text-sm text-gray-600 block mb-2">
-            Cantidad:
-            <input type="number"
-                   min="1"
-                   class="w-full mt-1 p-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
-                   placeholder="Ingresa la cantidad" />
-        </label>
-
-        <!-- Botón para crear el insumo -->
-        <button class="w-full py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
-            Crear/ Actualizar
-        </button>
-    </div>
-</div>
-
-
-
-<!-- Formulario de crear nueva tarea -->
-<div id="taskModal" onclick="closeModalCreateTask(event)" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-    <div onclick="event.stopPropagation()" class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md relative">
-
-        <!-- Botón de cerrar -->
-        <button onclick="closeModalCreateTask()" class="absolute top-3 right-3 text-gray-500 hover:text-gray-700">
-            x
-        </button>
-
-        <h4 class="text-lg font-semibold text-gray-700 mb-4">Nueva Tarea/ Tarea1</h4>
-
-        <!-- Inputs del formulario divididos en dos columnas -->
-        <div class="grid grid-cols-2 gap-4">
-            <label class="text-sm text-gray-600 block">
-                Nombres:
-                <input type="text"
-                       class="w-full mt-1 p-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
-                       placeholder="Escribe el nombre" />
-            </label>
-
-            <label class="text-sm text-gray-600 block">
-                Descripción:
-                <input type="text"
-                       class="w-full mt-1 p-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
-                       placeholder="Escribe la descripción" />
-            </label>
-
-            <label class="text-sm text-gray-600 block">
-                Inicio:
-                <input type="date"
-                       class="w-full mt-1 p-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300" />
-            </label>
-
-            <label class="text-sm text-gray-600 block">
-                Fin:
-                <input type="date"
-                       class="w-full mt-1 p-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300" />
-            </label>
-
-            <label class="text-sm text-gray-600 block">
-                Prioridad:
-                <input type="number"
-                       min="1"
-                       class="w-full mt-1 p-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
-                       placeholder="Ingresa un número" />
-            </label>
-
-            <label class="text-sm text-gray-600 block">
-                Progreso:
-                <input type="number"
-                       min="0"
-                       max="100"
-                       class="w-full mt-1 p-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
-                       placeholder="Porcentaje de progreso" />
-            </label>
-
-            <!-- Combo Box -->
-            <div class="col-span-2">
-                <label for="taskSelector" class="block text-sm font-medium text-gray-700 mb-1">Usuario Asignado</label>
-                <div>
-                    <button id="taskComboboxButton"
-                            onclick="toggleDropdownTypes()"
-                            class="w-full px-4 py-2 bg-gray-100 text-gray-800 font-medium rounded-lg shadow-md hover:bg-gray-200 focus:outline-none flex justify-between items-center">
-                        <span id="selectedTaskType">AcuñaGOAT</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                        </svg>
-                    </button>
-                    <ul id="taskDropdown"
-                        class="absolute mt-2 w-full bg-white shadow-lg rounded-lg py-1 hidden">
-                        <li onclick="selectTaskType('Polantoni')" class="cursor-pointer px-4 py-2 hover:bg-gray-100 text-gray-700">Polantoni</li>
-                        <li onclick="selectTaskType('Vierabad')" class="cursor-pointer px-4 py-2 hover:bg-gray-100 text-gray-700">Vierabad</li>
-                        <li onclick="selectTaskType('Pantalón')" class="cursor-pointer px-4 py-2 hover:bg-gray-100 text-gray-700">Pantalón</li>
-                        <li onclick="selectTaskType('Más A')" class="cursor-pointer px-4 py-2 hover:bg-gray-100 text-gray-700">Más A</li>
-                    </ul>
-                </div>
+            <!-- Selección del Líder -->
+            <div>
+                <label for="lider" class="block text-sm font-medium text-gray-700">Líder del Proyecto</label>
+                <select id="lider" name="lider"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                    <option disabled selected>Selecciona un líder</option>
+                    <option value="1">Líder 1</option>
+                    <option value="2">Líder 2</option>
+                </select>
             </div>
-        </div>
 
-        <!-- Botones adicionales -->
-        <div class="flex justify-between gap-2 mt-4">
-            <button onclick="openTagsModal()" class="w-full py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600">
-                Etiquetas
-            </button>
-            <button onclick="openCommentsModal()" class="w-full py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600">
-                Comentarios
-            </button>
-        </div>
+            <!-- Selección del Equipo -->
+            <div>
+                <label for="equipo" class="block text-sm font-medium text-gray-700">Equipo</label>
+                <select id="equipo" name="equipo"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                    <option disabled selected>Selecciona un equipo</option>
+                    <option value="A">Equipo A</option>
+                    <option value="B">Equipo B</option>
+                </select>
+            </div>
 
-        <!-- Botón para crear la tarea -->
-        <button class="w-full mt-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
-            Crear/ Actualizar
-        </button>
-    </div>
-</div>
+            <!-- Estado del Proyecto -->
+            <div>
+                <label for="estado" class="block text-sm font-medium text-gray-700">Estado</label>
+                <select id="estado" name="estado"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                    <option disabled selected>Selecciona un estado</option>
+                    <option value="iniciado">Iniciado</option>
+                    <option value="en-progreso">En Progreso</option>
+                    <option value="finalizado">Finalizado</option>
+                </select>
+            </div>
 
+            <!-- Imagen del Proyecto -->
+            <div>
+                <label for="imagen" class="block text-sm font-medium text-gray-700">URL de la Imagen</label>
+                <input type="url" id="imagen" name="imagen"
+                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                       placeholder="https://example.com/imagen.jpg" />
+            </div>
 
-
-<!-- Formulario de CRUD de Etiquetas -->
-<div id="tagsModal" onclick="closeTagsModal(event)" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-    <div onclick="event.stopPropagation()" class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md relative">
-
-        <!-- Botón de cerrar -->
-        <button onclick="closeTagsModal()" class="absolute top-3 right-3 text-gray-500 hover:text-gray-700">
-            x
-        </button>
-
-        <!-- Título del formulario -->
-        <h4 class="text-center text-lg font-semibold text-gray-700 mb-4">Etiquetas</h4>
-        <p class="text-center text-gray-600 mb-4">tarea1</p>
-
-        <!-- Sección para agregar etiquetas existentes -->
-        <div class="flex items-center gap-3">
-
-            <!-- Botón para agregar -->
-            <button class="w-10 h-10 bg-red-500 text-white rounded-lg hover:bg-red-600 flex justify-center items-center">
-                -
-            </button>
-
-            <!-- Combobox para seleccionar etiqueta -->
-            <div class="relative flex-1">
-                <button id="tagsComboboxButton"
-                        onclick="toggleDropdownTags()"
-                        class="w-full px-4 py-2 bg-gray-100 text-gray-800 font-medium rounded-lg shadow-md hover:bg-gray-200 focus:outline-none flex justify-between items-center">
-                    <span id="selectedTag">Seleccionar etiqueta</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                    </svg>
+            <!-- Botones -->
+            <div class="flex justify-between">
+                <button type="button"
+                        class="px-4 py-2 bg-blue-600 text-white font-semibold rounded-md shadow-sm hover:bg-blue-700">
+                    Guardar Cambios
                 </button>
-                <ul id="tagsDropdown"
-                    class="absolute mt-2 w-full bg-white shadow-lg rounded-lg py-1 hidden z-10">
-                    <li onclick="selectTag('Etiqueta1')" class="cursor-pointer px-4 py-2 hover:bg-gray-100 text-gray-700">Etiqueta1</li>
-                    <li onclick="selectTag('Etiqueta2')" class="cursor-pointer px-4 py-2 hover:bg-gray-100 text-gray-700">Etiqueta2</li>
-                    <li onclick="selectTag('Etiqueta3')" class="cursor-pointer px-4 py-2 hover:bg-gray-100 text-gray-700">Etiqueta3</li>
-                </ul>
-            </div>
-
-            <!-- Botón para agregar -->
-            <button class="w-10 h-10 bg-green-500 text-white rounded-lg hover:bg-green-600 flex justify-center items-center">
-                +
-            </button>
-        </div>
-
-        <!-- Sección para crear nueva etiqueta -->
-        <div class="mb-4 mt-4">
-            <label class="block text-sm text-gray-600 mb-1">Nuevo:</label>
-            <div class="flex items-center gap-2">
-                <input type="text"
-                       class="flex-1 mt-1 p-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
-                       placeholder="Escribe el nombre de la etiqueta" />
-                <button class="w-10 h-10 bg-green-500 text-white rounded-lg hover:bg-green-600 flex justify-center items-center">
-                    +
+                <button type="button"
+                        class="px-4 py-2 bg-yellow-500 text-white font-semibold rounded-md shadow-sm hover:bg-yellow-600">
+                    Cancelar
                 </button>
-            </div>
-        </div>
-
-        <!-- Lista de etiquetas existentes -->
-        <div class="flex flex-wrap gap-2">
-            <!-- Etiqueta 1 -->
-            <div class="bg-gray-100 text-gray-700 px-3 py-1 rounded-lg shadow-sm flex items-center gap-2">
-                <button>Política</button>
-                <button onclick="removeTag('Política')" class="text-red-500 hover:text-red-700">
-                    &times;
+                <button type="button"
+                        class="px-4 py-2 bg-green-500 text-white font-semibold rounded-md shadow-sm hover:bg-green-600">
+                    Sprints
                 </button>
-            </div>
-
-            <!-- Etiqueta 2 -->
-            <div class="bg-gray-100 text-gray-700 px-3 py-1 rounded-lg shadow-sm flex items-center gap-2">
-                <button>Espacio</button>
-                <button onclick="removeTag('Espacio')" class="text-red-500 hover:text-red-700">
-                    &times;
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-
-<!-- Formulario para comentarios -->
-<div id="CommentsModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden z-50" onclick="closeCommentsModal(event)">
-    <div class="bg-white rounded-lg shadow-lg w-3/4 p-8 relative max-h-[80vh] overflow-y-auto" onclick="event.stopPropagation()">
-        <!-- Título -->
-        <h2 class="text-2xl font-bold text-gray-800 text-center mb-4">Comentarios</h2>
-
-        <!-- Subtítulo -->
-        <p class="text-lg text-gray-600 text-center mb-6">Tarea1</p>
-
-        <!-- Contenedor de comentarios con scroll habilitado -->
-        <div class="space-y-4">
-            <!-- Comentario 1 -->
-            <div class="border rounded-lg p-6 bg-gray-100 m-2 relative">
-                <div class="mb-4">
-                    <p class="text-gray-800 font-medium mb-2">Polantoni</p>
-                    <p class="text-gray-700 mb-4">
-                        Me parece que tu tarea está bastante mal hecha, por favor hazlo todo de nuevo
-                        porque presentar eso es faltarle el respeto a todo el mundo, espero entiendas.
-                    </p>
-                    <div class="flex justify-center items-center bg-pink-300 w-20 h-20 mb-4 mx-auto"></div>
-                    <div class="absolute top-4 right-4 flex space-x-4">
-                        <button onclick="openCommentsModalEdit()" class="px-4 py-2 bg-blue-500 text-white text-sm rounded-lg hover:bg-blue-600">Actualizar</button>
-                        <button class="px-4 py-2 bg-red-500 text-white text-sm rounded-lg hover:bg-red-600">Eliminar</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Comentario 2 -->
-            <div class="border rounded-lg p-6 bg-gray-100 m-2 relative">
-                <div class="mb-4">
-                    <p class="text-gray-800 font-medium mb-2">Vieirabad</p>
-                    <p class="text-gray-700 mb-4">
-                        She's in love with the concept, as if were all just how she imagined, cause we're
-                        in love i just don't know yet, well tell me how supposed to see the magic
-                    </p>
-                    <div class="flex justify-center items-center bg-pink-300 w-20 h-20 mb-4 mx-auto"></div>
-                    <div class="absolute top-4 right-4 flex space-x-4">
-                        <button onclick="openCommentsModalEdit()" class="px-4 py-2 bg-blue-500 text-white text-sm rounded-lg hover:bg-blue-600">Actualizar</button>
-                        <button class="px-4 py-2 bg-red-500 text-white text-sm rounded-lg hover:bg-red-600">Eliminar</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Botón para añadir un nuevo comentario -->
-        <div class="mt-6 flex justify-end">
-            <button onclick="openCommentsModalEdit()"" class="px-6 py-2 bg-green-500 text-white font-medium rounded-lg hover:bg-green-600">Nuevo</button>
-        </div>
-
-        <!-- Botón para cerrar el modal -->
-        <button onclick="closeCommentsModal()" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">X</button>
-    </div>
-</div>
-
-
-
-
-<!-- Modal para editar comentario-->
-<div id="CommentsModalEdit" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden z-50" onclick="closeCommentsModalEdit(event)">
-    <div class="bg-white rounded-lg shadow-lg w-3/4 p-8 relative" onclick="event.stopPropagation()">
-        <!-- Título -->
-        <h2 class="text-2xl font-bold text-gray-800 text-center mb-4">Formulario de Comentarios</h2>
-
-        <!-- Usuario -->
-        <p class="text-lg text-gray-600 text-center mb-6">Mazawaman</p>
-
-        <!-- Formulario -->
-        <form id="commentForm">
-            <!-- Área de texto grande -->
-            <div class="mb-4">
-                <textarea id="commentText" class="w-full h-32 p-4 border border-gray-300 rounded-lg" placeholder="Escribe tu comentario..."></textarea>
-            </div>
-
-            <!-- Botón para seleccionar imagen -->
-            <div class="mb-4">
-                <label for="imageInput" class="block text-gray-700">Seleccionar Imagen</label>
-                <input type="file" id="imageInput" class="mt-2 p-2 border border-gray-300 rounded-lg" />
-            </div>
-
-            <!-- Botones para Crear y Cerrar -->
-            <div class="flex justify-between mt-4">
-                <button type="submit" class="px-6 py-2 bg-green-500 text-white font-medium rounded-lg hover:bg-green-600">Crear</button>
-                <button type="button" onclick="closeCommentsModalEdit()" class="px-6 py-2 bg-red-500 text-white font-medium rounded-lg hover:bg-red-600">Cerrar</button>
             </div>
         </form>
     </div>
 </div>
-
-
-
-
-
-
-<!-- JavaScript para el formulario de crear actividad -->
-<script>
-
-    function openModal() {
-        document.getElementById('activityModal').classList.remove('hidden');
-    }
-
-    function closeModal(event) {
-        if (event && event.target !== event.currentTarget) return;
-        document.getElementById('activityModal').classList.add('hidden');
-    }
-</script>
-
-
-<!-- JavaScript para el combobox de sprints -->
-<script>
-    function toggleDropdown() {
-        const dropdown = document.getElementById('dropdown');
-        dropdown.classList.toggle('hidden');
-    }
-
-    function selectSprint(sprintName) {
-        const selectedSprint = document.getElementById('selectedSprint');
-        selectedSprint.textContent = sprintName;
-        toggleDropdown();
-    }
-
-    window.addEventListener('click', function (event) {
-        const dropdown = document.getElementById('dropdown');
-        const button = document.getElementById('comboboxButton');
-        if (!button.contains(event.target) && !dropdown.contains(event.target)) {
-            dropdown.classList.add('hidden');
-        }
-    });
-</script>
-
-
-<!-- JavaScript para el combobox de tipos de actividades -->
-<script>
-    function toggleDropdownTypes() {
-        const dropdown = document.getElementById('activityDropdown');
-        dropdown.classList.toggle('hidden'); // Alterna la visibilidad del dropdown
-    }
-
-    function selectActivityType(activityType) {
-        const selectedActivityType = document.getElementById('selectedActivityType');
-        selectedActivityType.textContent = activityType; // Actualiza el texto con el tipo seleccionado
-        toggleDropdownTypes(); // Cierra el dropdown
-    }
-
-    window.addEventListener('click', function (event) {
-        const dropdown = document.getElementById('activityDropdown');
-        const button = document.getElementById('activityComboboxButton');
-        if (!button.contains(event.target) && !dropdown.contains(event.target)) {
-            dropdown.classList.add('hidden'); // Cierra el dropdown si se hace clic fuera
-        }
-    });
-</script>
-
-
-<!-- Javascript para abrir el botón de insumos -->
-<script>
-    function openModalInsumos() {
-        document.getElementById('InsumoModal').classList.remove('hidden');
-    }
-
-    function closeModalInsumos(event) {
-        if (event) event.stopPropagation();
-        document.getElementById('InsumoModal').classList.add('hidden');
-    }
-</script>
-
-
-<!-- Javascript para abrir el botón de tareas -->
-<script>
-    function openTaskModal() {
-        document.getElementById('TaskModal').classList.remove('hidden');
-    }
-
-    function closeTaskModal(event) {
-        if (event) event.stopPropagation();
-        document.getElementById('TaskModal').classList.add('hidden');
-    }
-</script>
-
-
-<!-- JavaScript para el formulario -->
-<script>
-    function openModalCreateInsumo() {
-        document.getElementById('insumoModal').classList.remove('hidden');
-    }
-
-    function closeModalCreateInsumo(event) {
-        if (event && event.target !== event.currentTarget) return;
-        document.getElementById('insumoModal').classList.add('hidden');
-    }
-</script>
-
-
-<!-- JavaScript para el formulario de tareas -->
-<script>
-    function toggleDropdownTypes() {
-        const dropdown = document.getElementById('taskDropdown');
-        dropdown.classList.toggle('hidden');
-    }
-
-    function selectTaskType(type) {
-        document.getElementById('selectedTaskType').innerText = type;
-        document.getElementById('taskDropdown').classList.add('hidden');
-    }
-
-    function closeModalCreateTask(event) {
-        if (event && event.target !== event.currentTarget) return;
-        document.getElementById('taskModal').classList.add('hidden');
-    }
-
-    function openModalCreateTask() {
-        document.getElementById('taskModal').classList.remove('hidden');
-    }
-</script>
-
-
-<!-- JavaScript para el formulario de etiquetas -->
-<script>
-    // Mostrar/ocultar el dropdown de etiquetas existentes
-    function toggleDropdownTags() {
-        const dropdown = document.getElementById('tagsDropdown');
-        dropdown.classList.toggle('hidden');
-    }
-
-    // Seleccionar una etiqueta del dropdown
-    function selectTag(tag) {
-        document.getElementById('selectedTag').innerText = tag;
-        document.getElementById('tagsDropdown').classList.add('hidden');
-    }
-
-    // Cerrar el modal de etiquetas
-    function closeTagsModal(event) {
-        if (event && event.target !== event.currentTarget) return;
-        document.getElementById('tagsModal').classList.add('hidden');
-    }
-
-    // Abrir el modal de etiquetas
-    function openTagsModal() {
-        document.getElementById('tagsModal').classList.remove('hidden');
-    }
-
-    // Opcional: Función para manejar el agregado de nuevas etiquetas
-    function addNewTag() {
-        const input = document.querySelector('#tagsModal input[type="text"]');
-        const newTag = input.value.trim();
-        if (newTag) {
-            const existingTags = document.querySelector('.flex.flex-wrap');
-            const tagElement = document.createElement('div');
-            tagElement.className = 'bg-gray-100 text-gray-700 px-3 py-1 rounded-lg shadow-sm';
-            tagElement.innerText = newTag;
-            existingTags.appendChild(tagElement);
-            input.value = ''; // Limpiar el input
-        }
-    }
-</script>
-
-
-<!-- Javascript para el crud de comentarios -->
-<script>
-    function openCommentsModal() {
-        document.getElementById('CommentsModal').classList.remove('hidden');
-    }
-
-    function closeCommentsModal(event) {
-        if (event) event.stopPropagation();
-        document.getElementById('CommentsModal').classList.add('hidden');
-    }
-
-    function addNewComment() {
-        alert('Añadir nuevo comentario');
-        // maza tiene que implementar la lógica desde la bdd xd
-    }
-</script>
-
-
-<!-- Javascript para el editar comentarios-->
-<script>
-    function openCommentsModalEdit() {
-        document.getElementById('CommentsModalEdit').classList.remove('hidden');
-    }
-
-    function closeCommentsModalEdit(event) {
-        if (event) {
-            event.stopPropagation(); // Evitar cerrar el modal al hacer clic dentro de él
-        }
-        document.getElementById('CommentsModalEdit').classList.add('hidden');
-    }
-</script>

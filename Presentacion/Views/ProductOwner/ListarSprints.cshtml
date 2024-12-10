@@ -1,0 +1,95 @@
+@{
+    ViewBag.Title = "Listar Sprints";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mx-auto p-6 bg-gray-100 min-h-screen relative">
+    <!-- Título de la sección -->
+    <header class="mb-6">
+        <h1 class="text-3xl font-bold text-blue-600">Lista de Sprints</h1>
+        <p class="text-gray-600">Proyecto proyectito 1 (inserte nombre de proyecto)</p>
+    </header>
+
+    <!-- Lista de sprints -->
+    <div class="space-y-4">
+        <!-- Componente Sprint -->
+        <div class="p-4 bg-white shadow-md rounded-lg flex justify-between items-center">
+            <div>
+                <!-- Nombre del Sprint -->
+                <h2 class="text-xl font-bold text-gray-800">Sprint 1</h2>
+                <!-- Descripción del Sprint -->
+                <p class="text-sm text-gray-500">Del 10/12/2024 al 20/12/2024</p>
+            </div>
+            <!-- Botones -->
+            <div class="space-x-4 flex items-center">
+                <button class="px-4 py-2 bg-blue-600 text-white font-semibold rounded-md shadow-md hover:bg-blue-700">
+                    Insumos
+                </button>
+                <button class="px-4 py-2 bg-yellow-500 text-white font-semibold rounded-md shadow-md hover:bg-yellow-600">
+                    Actividades
+                </button>
+                <button class="px-4 py-2 bg-purple-500 text-white font-semibold rounded-md shadow-md hover:bg-purple-600">
+                    Editar
+                </button>
+                <button class="px-4 py-2 bg-red-600 text-white font-semibold rounded-md shadow-md hover:bg-red-700">
+                    Eliminar
+                </button>
+            </div>
+        </div>
+
+        <!-- Otro Sprint -->
+        <div class="p-4 bg-white shadow-md rounded-lg flex justify-between items-center">
+            <div>
+                <!-- Nombre del Sprint -->
+                <h2 class="text-xl font-bold text-gray-800">Sprint 2</h2>
+                <!-- Descripción del Sprint -->
+                <p class="text-sm text-gray-500">Del 21/12/2024 al 31/12/2024</p>
+            </div>
+            <!-- Botones -->
+            <div class="space-x-4 flex items-center">
+                <button class="px-4 py-2 bg-blue-600 text-white font-semibold rounded-md shadow-md hover:bg-blue-700">
+                    Insumos
+                </button>
+                <button class="px-4 py-2 bg-yellow-500 text-white font-semibold rounded-md shadow-md hover:bg-yellow-600">
+                    Actividades
+                </button>
+                <button class="px-4 py-2 bg-purple-500 text-white font-semibold rounded-md shadow-md hover:bg-purple-600">
+                    Editar
+                </button>
+                <button class="px-4 py-2 bg-red-600 text-white font-semibold rounded-md shadow-md hover:bg-red-700">
+                    Eliminar
+                </button>
+            </div>
+        </div>
+
+        <!-- Otro Sprint -->
+        <div class="p-4 bg-white shadow-md rounded-lg flex justify-between items-center">
+            <div>
+                <!-- Nombre del Sprint -->
+                <h2 class="text-xl font-bold text-gray-800">Sprint 3</h2>
+                <!-- Descripción del Sprint -->
+                <p class="text-sm text-gray-500">Del 01/01/2025 al 10/01/2025</p>
+            </div>
+            <!-- Botones -->
+            <div class="space-x-4 flex items-center">
+                <button class="px-4 py-2 bg-blue-600 text-white font-semibold rounded-md shadow-md hover:bg-blue-700">
+                    Insumos
+                </button>
+                <button class="px-4 py-2 bg-yellow-500 text-white font-semibold rounded-md shadow-md hover:bg-yellow-600">
+                    Actividades
+                </button>
+                <button class="px-4 py-2 bg-purple-500 text-white font-semibold rounded-md shadow-md hover:bg-purple-600">
+                    Editar
+                </button>
+                <button class="px-4 py-2 bg-red-600 text-white font-semibold rounded-md shadow-md hover:bg-red-700">
+                    Eliminar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Botón Crear fijo -->
+    <button class="fixed bottom-6 right-6 px-6 py-3 bg-green-600 text-white font-semibold rounded-full shadow-md hover:bg-green-700">
+        Crear
+    </button>
+</div>

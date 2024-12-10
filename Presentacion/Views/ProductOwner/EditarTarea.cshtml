@@ -1,0 +1,99 @@
+@{
+    ViewBag.Title = "Editar Tarea";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mx-auto p-6 bg-gray-100 min-h-screen">
+    <!-- Título -->
+    <header class="mb-6">
+        <h1 class="text-3xl font-bold text-blue-600">Editar Tarea</h1>
+        <p class="text-gray-600">Modifica los detalles de la tarea perteneciente a la Actividad 1.</p>
+    </header>
+
+    <!-- Formulario -->
+    <form action="/update-tarea" method="POST" class="bg-white p-6 shadow-lg rounded-lg space-y-4">
+
+        <!-- Campo Nombre -->
+        <div>
+            <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre</label>
+            <input type="text"
+                   id="nombre"
+                   name="nombre"
+                   class="mt-1 block w-full px-3 py-2 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                   value="Crear diagrama UML"
+                   required />
+        </div>
+
+        <!-- Campo Descripción -->
+        <div>
+            <label for="descripcion" class="block text-sm font-medium text-gray-700">Descripción</label>
+            <textarea id="descripcion"
+                      name="descripcion"
+                      class="mt-1 block w-full px-3 py-2 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      required>Diseñar el diagrama de casos de uso.</textarea>
+        </div>
+
+        <!-- Campo Fecha Inicio -->
+        <div>
+            <label for="fechaInicio" class="block text-sm font-medium text-gray-700">Fecha Inicio</label>
+            <input type="date"
+                   id="fechaInicio"
+                   name="fechaInicio"
+                   class="mt-1 block w-full px-3 py-2 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                   value="2024-01-01"
+                   required />
+        </div>
+
+        <!-- Campo Fecha Vencimiento -->
+        <div>
+            <label for="fechaVencimiento" class="block text-sm font-medium text-gray-700">Fecha Vencimiento</label>
+            <input type="date"
+                   id="fechaVencimiento"
+                   name="fechaVencimiento"
+                   class="mt-1 block w-full px-3 py-2 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                   value="2024-01-10"
+                   required />
+        </div>
+
+        <!-- Campo Prioridad -->
+        <div>
+            <label for="prioridad" class="block text-sm font-medium text-gray-700">Prioridad</label>
+            <select id="prioridad"
+                    name="prioridad"
+                    class="mt-1 block w-full px-3 py-2 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    required>
+                <option value="Alta" selected>Alta</option>
+                <option value="Media">Media</option>
+                <option value="Baja">Baja</option>
+            </select>
+        </div>
+
+        <!-- Campo Progreso -->
+        <div>
+            <label for="progreso" class="block text-sm font-medium text-gray-700">Progreso</label>
+            <input type="number"
+                   id="progreso"
+                   name="progreso"
+                   class="mt-1 block w-full px-3 py-2 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                   value="40"
+                   min="0"
+                   max="100"
+                   required />
+        </div>
+
+        <!-- Botones -->
+        <div class="flex justify-end space-x-4">
+            <!-- Botón Cancelar -->
+            <button type="button"
+                    onclick="window.history.back()"
+                    class="px-4 py-2 bg-gray-400 text-white rounded shadow hover:bg-gray-500">
+                Cancelar
+            </button>
+            <!-- Botón Guardar -->
+            <button type="submit"
+                    class="px-4 py-2 bg-blue-600 text-white rounded shadow hover:bg-blue-700">
+                Guardar
+            </button>
+        </div>
+    </form>
+</div>

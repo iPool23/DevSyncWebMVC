@@ -198,6 +198,19 @@
     <Content Include="webfonts\fa-brands-400.eot" />
     <Content Include="Views\ProductOwner\Proyecto.cshtml" />
     <Content Include="Views\ProductOwner\EditarProyecto.cshtml" />
+    <Content Include="Views\ProductOwner\Crudgod.cshtml" />
+    <Content Include="Views\ProductOwner\ListarSprints.cshtml" />
+    <Content Include="Views\ProductOwner\CrearEditarSprint.cshtml" />
+    <Content Include="Views\ProductOwner\ListarInsumos.cshtml" />
+    <Content Include="Views\ProductOwner\EditarInsumo.cshtml" />
+    <Content Include="Views\ProductOwner\ListarActividades.cshtml" />
+    <Content Include="Views\ProductOwner\ListarTareas.cshtml" />
+    <Content Include="Views\ProductOwner\ListarEtiquetas.cshtml" />
+    <Content Include="Views\ProductOwner\ListarComentarios.cshtml" />
+    <Content Include="Views\ProductOwner\EditarComentario.cshtml" />
+    <Content Include="Views\ProductOwner\EditarTarea.cshtml" />
+    <Content Include="Views\ProductOwner\EditarEtiqueta.cshtml" />
+    <Content Include="Views\ProductOwner\EditarActividad.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

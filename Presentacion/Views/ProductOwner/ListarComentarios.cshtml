@@ -1,0 +1,60 @@
+@{
+    ViewBag.Title = "Listar Comentarios";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mx-auto p-6 bg-gray-100 min-h-screen">
+    <!-- Título -->
+    <header class="mb-6">
+        <h1 class="text-3xl font-bold text-blue-600">Lista de Comentarios</h1>
+        <p class="text-gray-600">Lista de comentarios de la Tarea 1.</p>
+    </header>
+
+    <!-- Tabla de comentarios -->
+    <div class="overflow-x-auto bg-white shadow-md rounded-lg">
+        <table class="w-full text-left border-collapse">
+            <thead>
+                <tr class="bg-blue-600 text-white">
+                    <th class="px-4 py-3">Código</th>
+                    <th class="px-4 py-3">Contenido</th>
+                    <th class="px-4 py-3">Fecha de Creación</th>
+                    <th class="px-4 py-3">Usuario</th>
+                    <th class="px-4 py-3">Imagen</th>
+                    <th class="px-4 py-3 text-center">Acciones</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200">
+                <!-- Fila de ejemplo -->
+                <tr class="hover:bg-gray-50">
+                    <td class="px-4 py-3">1</td>
+                    <td class="px-4 py-3">Revisar el diseño.</td>
+                    <td class="px-4 py-3">2024-12-09</td>
+                    <td class="px-4 py-3">Vieirabad Victor Irvin</td>
+                    <td class="px-4 py-3">
+                        <img src="https://via.placeholder.com/50"
+                             alt="Imagen del comentario"
+                             class="w-12 h-12 rounded-full border border-gray-300" />
+                    </td>
+                    <td class="px-4 py-3 text-center space-x-2">
+                        <!-- Botón Editar -->
+                        <button class="px-3 py-1 text-sm bg-blue-600 text-white rounded shadow hover:bg-blue-700 focus:outline-none"
+                                title="Editar Comentario">
+                            Editar
+                        </button>
+                        <!-- Botón Eliminar -->
+                        <button class="px-3 py-1 text-sm bg-red-600 text-white rounded shadow hover:bg-red-700 focus:outline-none"
+                                title="Eliminar Comentario">
+                            Eliminar
+                        </button>
+                    </td>
+                </tr>
+                <!-- Más filas dinámicas -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Botón Agregar -->
+    <button class="fixed bottom-6 right-6 px-4 py-2 bg-green-600 text-white text-sm font-medium rounded shadow-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-400">
+        Agregar
+    </button>
+</div>

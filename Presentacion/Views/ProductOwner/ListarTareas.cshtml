@@ -1,0 +1,72 @@
+@{
+    ViewBag.Title = "Listar Tareas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mx-auto p-6 bg-gray-100 min-h-screen">
+    <!-- Título -->
+    <header class="mb-6">
+        <h1 class="text-3xl font-bold text-blue-600">Lista de Tareas</h1>
+        <p class="text-gray-600">Lista de tareas de la Actividad 1.</p>
+    </header>
+
+    <!-- Tabla de tareas -->
+    <div class="overflow-x-auto bg-white shadow-md rounded-lg">
+        <table class="w-full text-left border-collapse">
+            <thead>
+                <tr class="bg-blue-600 text-white">
+                    <th class="px-4 py-3">Código</th>
+                    <th class="px-4 py-3">Nombre</th>
+                    <th class="px-4 py-3">Descripción</th>
+                    <th class="px-4 py-3">Fecha Inicio</th>
+                    <th class="px-4 py-3">Última Actualización</th>
+                    <th class="px-4 py-3">Fecha Vencimiento</th>
+                    <th class="px-4 py-3">Prioridad</th>
+                    <th class="px-4 py-3">Progreso</th>
+                    <th class="px-4 py-3 text-center">Acciones</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200">
+                <!-- Fila de ejemplo -->
+                <tr class="hover:bg-gray-50">
+                    <td class="px-4 py-3">1</td>
+                    <td class="px-4 py-3">Crear diagrama UML</td>
+                    <td class="px-4 py-3">Diseñar el diagrama de casos de uso.</td>
+                    <td class="px-4 py-3">2024-01-01</td>
+                    <td class="px-4 py-3">2024-01-05</td>
+                    <td class="px-4 py-3">2024-01-10</td>
+                    <td class="px-4 py-3">Alta</td>
+                    <td class="px-4 py-3">40%</td>
+                    <td class="px-4 py-3 text-center space-x-2">
+                        <!-- Botón Comentarios -->
+                        <button class="px-3 py-1 text-sm bg-purple-500 text-white rounded shadow hover:bg-purple-600 focus:outline-none"
+                                title="Ver Comentarios">
+                            Comentarios
+                        </button>
+                        <!-- Botón Etiquetas -->
+                        <button class="px-3 py-1 text-sm bg-indigo-500 text-white rounded shadow hover:bg-indigo-600 focus:outline-none"
+                                title="Gestionar Etiquetas">
+                            Etiquetas
+                        </button>
+                        <!-- Botón Editar -->
+                        <button class="px-3 py-1 text-sm bg-blue-600 text-white rounded shadow hover:bg-blue-700 focus:outline-none"
+                                title="Editar Tarea">
+                            Editar
+                        </button>
+                        <!-- Botón Eliminar -->
+                        <button class="px-3 py-1 text-sm bg-red-600 text-white rounded shadow hover:bg-red-700 focus:outline-none"
+                                title="Eliminar Tarea">
+                            Eliminar
+                        </button>
+                    </td>
+                </tr>
+                <!-- Más filas dinámicas -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Botón Crear -->
+    <button class="fixed bottom-6 right-6 px-4 py-2 bg-green-600 text-white text-sm font-medium rounded shadow-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-400">
+        Crear
+    </button>
+</div>

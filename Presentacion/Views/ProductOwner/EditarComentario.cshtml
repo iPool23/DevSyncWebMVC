@@ -1,0 +1,53 @@
+@{
+    ViewBag.Title = "Editar Comentario";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mx-auto p-6 bg-gray-100 min-h-screen">
+    <!-- Título -->
+    <header class="mb-6">
+        <h1 class="text-3xl font-bold text-blue-600">Editar Comentario</h1>
+        <p class="text-gray-600">Modifica los detalles del comentario en la Tarea 1.</p>
+    </header>
+
+    <!-- Formulario -->
+    <form action="/update-comentario" method="POST" class="bg-white p-6 shadow-lg rounded-lg space-y-4">
+
+        <!-- Campo Contenido -->
+        <div>
+            <label for="contenido" class="block text-sm font-medium text-gray-700">Contenido</label>
+            <textarea id="contenido"
+                      name="contenido"
+                      class="mt-1 block w-full px-3 py-2 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      rows="3"
+                      placeholder="Escribe el contenido del comentario"
+                      required>Revisar el diseño.</textarea>
+        </div>
+
+        <!-- Campo Imagen -->
+        <div>
+            <label for="imgUrl" class="block text-sm font-medium text-gray-700">URL de la Imagen</label>
+            <input type="url"
+                   id="imgUrl"
+                   name="imgUrl"
+                   class="mt-1 block w-full px-3 py-2 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                   value="https://via.placeholder.com/50" />
+            <p class="text-sm text-gray-500 mt-1">Proporciona un enlace válido a la imagen.</p>
+        </div>
+
+        <!-- Botones -->
+        <div class="flex justify-end space-x-4">
+            <!-- Botón Cancelar -->
+            <button type="button"
+                    onclick="window.history.back()"
+                    class="px-4 py-2 bg-gray-400 text-white rounded shadow hover:bg-gray-500">
+                Cancelar
+            </button>
+            <!-- Botón Guardar -->
+            <button type="submit"
+                    class="px-4 py-2 bg-blue-600 text-white rounded shadow hover:bg-blue-700">
+                Guardar
+            </button>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,70 @@
+@{
+    ViewBag.Title = "Sprint";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Ese moradito es para que le agregen su funcionalidad, wachines uwu -->
+
+<div class="container mx-auto p-6 bg-gray-100 min-h-screen">
+    <!-- Título del formulario -->
+    <header class="mb-6">
+        <h1 class="text-3xl font-bold text-blue-600">
+            {{ editMode ? 'Editar Sprint' : 'Crear Sprint' }}
+        </h1>
+        <p class="text-gray-600">
+            Rellena los campos para {{ editMode ? 'editar' : 'crear' }} un sprint.
+        </p>
+    </header>
+
+    <!-- Formulario -->
+    <form class="bg-white p-6 rounded-lg shadow-md space-y-4">
+
+        <!-- Progreso -->
+        <div>
+            <label for="progreso" class="block text-sm font-medium text-gray-700">Progreso (%)</label>
+            <input type="number"
+                   id="progreso"
+                   name="progreso"
+                   class="mt-1 block w-full p-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                   placeholder="0-100"
+                   value="{{ sprintData?.progreso ?? 0 }}"
+                   min="0"
+                   max="100"
+                   required />
+        </div>
+
+        <!-- Fecha Inicio -->
+        <div>
+            <label for="fechaInicio" class="block text-sm font-medium text-gray-700">Fecha de Inicio</label>
+            <input type="date"
+                   id="fechaInicio"
+                   name="fechaInicio"
+                   class="mt-1 block w-full p-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                   value="{{ sprintData?.fechaInicio ?? '' }}"
+                   required />
+        </div>
+
+        <!-- Fecha Fin -->
+        <div>
+            <label for="fechaFin" class="block text-sm font-medium text-gray-700">Fecha de Fin</label>
+            <input type="date"
+                   id="fechaFin"
+                   name="fechaFin"
+                   class="mt-1 block w-full p-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                   value="{{ sprintData?.fechaFin ?? '' }}"
+                   required />
+        </div>
+
+        <!-- Botones -->
+        <div class="flex justify-between">
+            <button type="button"
+                    class="px-4 py-2 bg-gray-400 text-white font-semibold rounded-md shadow-md hover:bg-gray-500">
+                Cancelar
+            </button>
+            <button type="submit"
+                    class="px-6 py-2 bg-green-600 text-white font-semibold rounded-md shadow-md hover:bg-green-700">
+                {{ editMode ? 'Actualizar Sprint' : 'Crear Sprint' }}
+            </button>
+        </div>
+    </form>
+</div>
