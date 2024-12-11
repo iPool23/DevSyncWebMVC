@@ -96,15 +96,5 @@ namespace Presentacion.Controllers
             return View();
         }
 
-        // Lógica uwu
-
-        public JsonResult ListarProyectos()
-        {
-            List<EntProyecto> lista = new List<EntProyecto>();
-
-            lista = new NegProyecto().Listar();
-
-            return Json(lista, JsonRequestBehavior.AllowGet);
-        }
     }
 }

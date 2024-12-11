@@ -43,7 +43,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DatConexion.cs" />
+    <Compile Include="DatEquipo.cs" />
+    <Compile Include="DatEquipoUsuario.cs" />
+    <Compile Include="DatEstado.cs" />
     <Compile Include="DatProyecto.cs" />
+    <Compile Include="DatRol.cs" />
+    <Compile Include="DatRolProyecto.cs" />
+    <Compile Include="DatUsuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

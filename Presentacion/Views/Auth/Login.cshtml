@@ -1,0 +1,56 @@
+﻿@model Presentacion.Models.LoginViewModel
+
+@{
+    ViewBag.Title = "Inicio de Sesión";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+
+<div class="flex items-center justify-center min-h-screen">
+    <div class="w-full max-w-md">
+        <div class="bg-white shadow-lg rounded-2xl p-8 space-y-8">
+            <div class="text-center">
+                <h2 class="text-3xl font-extrabold text-gray-900">Bienvenido</h2>
+                <p class="mt-2 text-sm text-gray-600">Inicia sesión en tu cuenta</p>
+            </div>
+
+            @using (Html.BeginForm("Login", "Auth", FormMethod.Post, new { @class = "space-y-6" }))
+            {
+                @Html.AntiForgeryToken()
+
+                <div>
+                    @Html.LabelFor(m => m.Username, "Usuario", new { @class = "block text-sm font-medium text-gray-700" })
+                    <div class="mt-1 relative rounded-md shadow-sm">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-user text-gray-400"></i>
+                        </div>
+                        @Html.TextBoxFor(m => m.Username, new { @class = "block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm", placeholder = "Ingrese su usuario" })
+                    </div>
+                    @Html.ValidationMessageFor(m => m.Username, "", new { @class = "text-red-500 text-xs mt-1" })
+                </div>
+
+                <div>
+                    @Html.LabelFor(m => m.Password, "Contraseña", new { @class = "block text-sm font-medium text-gray-700" })
+                    <div class="mt-1 relative rounded-md shadow-sm">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-lock text-gray-400"></i>
+                        </div>
+                        @Html.PasswordFor(m => m.Password, new { @class = "block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm", placeholder = "Ingrese su contraseña" })
+                    </div>
+                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-red-500 text-xs mt-1" })
+                </div>
+
+                <div>
+                    <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out">
+                        Iniciar Sesión
+                    </button>
+                </div>
+
+                @Html.ValidationSummary(true, "", new { @class = "text-red-600 text-center block text-sm" })
+            }
+
+            <div class="text-center">
+                <p class="text-sm text-gray-600">¿No tienes una cuenta? <a href="@Url.Action("Register", "Auth")" class="text-blue-600 hover:text-blue-500">Regístrate</a></p>
+            </div>
+        </div>
+    </div>
+</div>

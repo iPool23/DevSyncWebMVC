@@ -15,7 +15,7 @@ namespace Presentacion
                 "~/Scripts/script.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                "~/Content/Style.css"));
+                "~/Content/styles.css"));
         }
     }
 }
