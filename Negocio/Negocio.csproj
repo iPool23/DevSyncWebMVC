@@ -42,8 +42,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="NegInsumo.cs" />
+    <Compile Include="NegEquipo.cs" />
+    <Compile Include="NegEquipoUsuario.cs" />
+    <Compile Include="NegEstado.cs" />
     <Compile Include="NegProyecto.cs" />
     <Compile Include="NegSprint.cs" />
+    <Compile Include="NegRol.cs" />
+    <Compile Include="NegRolProyecto.cs" />
+    <Compile Include="NegUsuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -8,7 +8,7 @@ namespace Entidad
 {
     public class EntUsuario
     {
-        public int iCodigo {  get; set; }
+        public int iCodigo { get; set; }
         public string sNombreUsuario { get; set; }
         public string sCorreo { get; set; }
         public string sContrasenia { get; set; }
