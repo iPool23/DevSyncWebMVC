@@ -118,6 +118,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\ActividadController.cs" />
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProductOwnerController.cs" />
@@ -230,6 +231,8 @@
     <Content Include="Views\Proyecto\ProyectoForm.cshtml" />
     <Content Include="Views\Proyecto\EditarEquipo.cshtml" />
     <Content Include="Views\Proyecto\EditarUsuariosEquipo.cshtml" />
+    <Content Include="Views\Actividad\Listar.cshtml" />
+    <Content Include="Views\Actividad\ActividadForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

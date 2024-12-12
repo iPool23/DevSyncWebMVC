@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DatActividad.cs" />
     <Compile Include="DatConexion.cs" />
     <Compile Include="DatInsumo.cs" />
     <Compile Include="DatEquipo.cs" />
@@ -50,6 +51,7 @@
     <Compile Include="DatProyecto.cs" />
     <Compile Include="DatRol.cs" />
     <Compile Include="DatRolProyecto.cs" />
+    <Compile Include="DatTipoActividad.cs" />
     <Compile Include="DatUsuario.cs" />
     <Compile Include="DatSprint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

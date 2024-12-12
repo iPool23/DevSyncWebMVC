@@ -1,0 +1,90 @@
+﻿@model Entidad.EntActividad
+
+@{
+    ViewBag.Title = Model.iCodigo == 0 ? "Crear Actividad" : "Editar Actividad";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mx-auto p-6 max-w-3xl">
+    <!-- Breadcrumb -->
+    <nav class="mb-6">
+        <ol class="flex items-center space-x-2 text-gray-500">
+            <li>
+                <a href="@Url.Action("Index", "ProductOwner")" class="flex items-center hover:text-blue-600 transition-colors">
+                    <i class="fas fa-home mr-1"></i> Inicio
+                </a>
+            </li>
+            <li><i class="fas fa-chevron-right text-xs"></i></li>
+            <li>
+                <a href="@Url.Action("Listar", "Actividad", new { codigoProyecto = ViewBag.CodigoProyecto, codigoSprint = Model.eSprint.codigo })" 
+                   class="flex items-center hover:text-blue-600 transition-colors">
+                    <i class="fas fa-tasks mr-1"></i> Actividades
+                </a>
+            </li>
+            <li><i class="fas fa-chevron-right text-xs"></i></li>
+            <li class="text-blue-600 font-medium">@ViewBag.Title</li>
+        </ol>
+    </nav>
+
+    <div class="bg-white rounded-lg shadow-lg p-8">
+        <h2 class="text-2xl font-bold mb-8 text-gray-800 flex items-center">
+            <i class="fas fa-clipboard-list text-blue-600 mr-3"></i>
+            @ViewBag.Title
+        </h2>
+
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "space-y-8" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => m.iCodigo)
+            @Html.HiddenFor(m => m.eSprint.codigo)
+
+            <div class="space-y-6">
+                <div class="form-group">
+                    <label class="flex items-center text-gray-700 mb-2">
+                        <i class="fas fa-tag text-blue-600 mr-2 w-5"></i>
+                        Nombre
+                    </label>
+                    @Html.TextBoxFor(m => m.sNombre, new { @class = "form-input w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 transition-shadow" })
+                    @Html.ValidationMessageFor(m => m.sNombre, "", new { @class = "text-red-500 text-sm mt-1" })
+                </div>
+
+                <div class="form-group">
+                    <label class="flex items-center text-gray-700 mb-2">
+                        <i class="fas fa-align-left text-blue-600 mr-2 w-5"></i>
+                        Descripción
+                    </label>
+                    @Html.TextAreaFor(m => m.sDescripcion, new { @class = "form-textarea w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 transition-shadow", rows = "4" })
+                    @Html.ValidationMessageFor(m => m.sDescripcion, "", new { @class = "text-red-500 text-sm mt-1" })
+                </div>
+
+                <div class="form-group">
+                    <label class="flex items-center text-gray-700 mb-2">
+                        <i class="fas fa-list-alt text-blue-600 mr-2 w-5"></i>
+                        Tipo de Actividad
+                    </label>
+                    @Html.DropDownListFor(m => m.eTipoActividad.iCodigo, 
+                        (SelectList)ViewBag.TiposActividad, 
+                        new { @class = "form-select w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 transition-shadow" })
+                    @Html.ValidationMessageFor(m => m.eTipoActividad.iCodigo, "", new { @class = "text-red-500 text-sm mt-1" })
+                </div>
+
+                <div class="flex justify-end space-x-4 pt-6">
+                    <a href="@Url.Action("Listar", new { codigoProyecto = ViewBag.CodigoProyecto, codigoSprint = Model.eSprint.codigo })" 
+                       class="flex items-center px-6 py-2.5 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors">
+                        <i class="fas fa-times mr-2"></i>
+                        Cancelar
+                    </a>
+                    <button type="submit" 
+                            class="flex items-center px-6 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors">
+                        <i class="fas fa-save mr-2"></i>
+                        Guardar
+                    </button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

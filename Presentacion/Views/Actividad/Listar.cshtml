@@ -1,0 +1,132 @@
+﻿@model IEnumerable<Entidad.EntActividad>
+
+@{
+    ViewBag.Title = "Listar Actividades";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mx-auto p-6">
+    @Html.AntiForgeryToken()
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold">@ViewBag.Title</h2>
+        <a href="@Url.Action("ActividadForm", "Actividad", new { codigoProyecto = ViewBag.CodigoProyecto, codigoSprint = ViewBag.CodigoSprint })" 
+           class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+            Nueva Actividad
+        </a>
+    </div>
+
+    <div class="space-y-2">
+        @foreach (var actividad in Model)
+        {
+            string marginClass = actividad.eTipoActividad.sNombre switch
+            {
+                "Feature" => "ml-8",
+                "Backlog" => "ml-16",
+                "Bug" => "ml-24",
+                _ => ""
+            };
+
+            string typeIcon = actividad.eTipoActividad.sNombre switch
+            {
+                "Feature" => "⭐",
+                "Backlog" => "📋",
+                "Bug" => "🐞",
+                "Epic" => "🏆",
+                _ => "📌"
+            };
+
+            string bgColor = actividad.eTipoActividad.sNombre switch
+            {
+                "Feature" => "bg-purple-50 hover:bg-purple-100",
+                "Backlog" => "bg-blue-50 hover:bg-blue-100",
+                "Bug" => "bg-red-50 hover:bg-red-100",
+                "Epic" => "bg-yellow-50 hover:bg-yellow-100",
+                _ => "bg-gray-50 hover:bg-gray-100"
+            };
+
+            <div class="@marginClass">
+                <div class="@bgColor p-4 rounded-lg shadow-sm border border-gray-200">
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center space-x-3">
+                            <span class="text-xl">@typeIcon</span>
+                            <div>
+                                <h3 class="font-semibold">@actividad.sNombre</h3>
+                                <p class="text-sm text-gray-600">@actividad.sDescripcion</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div class="flex items-center">
+                                <div class="w-32 bg-gray-200 rounded-full h-2">
+                                    <div class="bg-blue-600 h-2 rounded-full" style="width: @(actividad.iProgreso)%"></div>
+                                </div>
+                                <span class="ml-2 text-sm text-gray-600">@(actividad.iProgreso)%</span>
+                            </div>
+                            <div class="flex space-x-2">
+                                <a href="@Url.Action("ActividadForm", "Actividad", new { codigoProyecto = ViewBag.CodigoProyecto, codigoSprint = ViewBag.CodigoSprint, codigo = actividad.iCodigo })" 
+                                   class="p-2 text-gray-600 hover:text-blue-600">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a href="#" onclick="openDeleteModal(@actividad.iCodigo)" class="p-2 text-gray-600 hover:text-red-600">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- Delete Modal -->
+<div id="deleteModal" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 hidden">
+    <div class="bg-white rounded-lg shadow-lg w-1/3">
+        <div class="px-6 py-4">
+            <h2 class="text-xl font-semibold text-gray-800">Confirmar Eliminación</h2>
+            <p class="mt-2 text-gray-600">¿Estás seguro de que deseas eliminar esta actividad?</p>
+        </div>
+        <div class="px-6 py-4 bg-gray-100 flex justify-end">
+            <button id="cancelDeleteBtn" class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 mr-2">Cancelar</button>
+            <button id="confirmDeleteBtn" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">Eliminar</button>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        let actividadId = 0;
+
+        function openDeleteModal(id) {
+            actividadId = id;
+            document.getElementById('deleteModal').classList.remove('hidden');
+        }
+
+        document.getElementById('cancelDeleteBtn').addEventListener('click', function() {
+            document.getElementById('deleteModal').classList.add('hidden');
+        });
+
+        document.getElementById('confirmDeleteBtn').addEventListener('click', function() {
+            $.ajax({
+                url: '@Url.Action("Eliminar", "Actividad")',
+                type: 'POST',
+                data: {
+                    id: actividadId,
+                    __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
+                },
+                success: function(result) {
+                    if(result.success) {
+                        location.reload();
+                    } else {
+                        alert('Error al eliminar la actividad');
+                    }
+                    document.getElementById('deleteModal').classList.add('hidden');
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                    alert('Error al eliminar la actividad');
+                    document.getElementById('deleteModal').classList.add('hidden');
+                }
+            });
+        });
+    </script>
+}

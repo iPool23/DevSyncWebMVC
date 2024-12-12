@@ -1752,3 +1752,99 @@ BEGIN
 END
 GO
 
+-- ------------------------------------ --
+--          A C T I V I D A D           --
+-- ------------------------------------ --
+
+CREATE PROCEDURE SP_ListarActividadesPorSprintWeb
+    @CodigoSprint INT
+AS
+BEGIN
+    SELECT 
+        a.codigo,
+        a.nombre,
+        a.descripcion,
+        a.progreso,
+        a.codigoTipo AS codigoTipoActividad,
+        ta.nombre AS nombreTipoActividad,
+        a.codigoEstado,
+        e.nombre AS nombreEstado
+    FROM actividad a
+    INNER JOIN tipo_actividad ta ON a.codigoTipo = ta.codigo
+    INNER JOIN estado e ON a.codigoEstado = e.codigo
+    WHERE a.codigoSprint = @CodigoSprint
+END
+GO
+
+CREATE PROCEDURE SP_RegistrarActividadWeb
+    @Nombre NVARCHAR(100),
+    @Descripcion NVARCHAR(MAX),
+    @Progreso INT,
+    @CodigoTipoActividad INT,
+    @CodigoSprint INT,
+    @CodigoEstado INT
+AS
+BEGIN
+    INSERT INTO actividad (nombre, descripcion, progreso, codigoTipo, codigoSprint, codigoEstado)
+    VALUES (@Nombre, @Descripcion, @Progreso, @CodigoTipoActividad, @CodigoSprint, @CodigoEstado)
+END
+GO
+
+CREATE PROCEDURE SP_ActualizarActividadWeb
+    @Codigo INT,
+    @Nombre NVARCHAR(100),
+    @Descripcion NVARCHAR(MAX),
+    @Progreso INT,
+    @CodigoTipoActividad INT,
+    @CodigoEstado INT
+AS
+BEGIN
+    UPDATE actividad
+    SET 
+        nombre = @Nombre,
+        descripcion = @Descripcion,
+        progreso = @Progreso,
+        codigoTipo = @CodigoTipoActividad,
+        codigoEstado = @CodigoEstado
+    WHERE codigo = @Codigo
+END
+GO
+
+CREATE PROCEDURE SP_ObtenerActividadPorCodigoWeb
+    @Codigo INT
+AS
+BEGIN
+    SELECT 
+        a.codigo,
+        a.nombre,
+        a.descripcion,
+        a.progreso,
+        a.codigoTipo AS codigoTipoActividad,
+        ta.nombre AS nombreTipoActividad,
+        a.codigoEstado,
+        e.nombre AS nombreEstado,
+        a.codigoSprint
+    FROM actividad a
+    INNER JOIN tipo_actividad ta ON a.codigoTipo = ta.codigo
+    INNER JOIN estado e ON a.codigoEstado = e.codigo
+    WHERE a.codigo = @Codigo
+END
+GO
+
+CREATE PROCEDURE SP_ListarTipoActividadWeb
+AS
+BEGIN
+    SELECT 
+        codigo,
+        nombre
+    FROM tipo_actividad
+END
+GO
+
+CREATE PROCEDURE SP_EliminarActividadWeb
+    @Codigo INT
+AS
+BEGIN
+    DELETE FROM actividad WHERE codigo = @Codigo
+END
+GO

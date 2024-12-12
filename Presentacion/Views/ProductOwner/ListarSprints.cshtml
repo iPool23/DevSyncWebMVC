@@ -4,7 +4,7 @@
 }
 
 <div class="container mx-auto p-6 bg-gray-100 min-h-screen relative">
-    <!-- Título de la sección -->
+    <!-- Tï¿½tulo de la secciï¿½n -->
     <header class="mb-6">
         <h1 class="text-3xl font-bold text-blue-600">Lista de Sprints</h1>
         <p class="text-gray-600">Proyecto <span id="proyectoNombre">Cargando...</span></p>
@@ -12,13 +12,13 @@
 
     <!-- Lista de sprints -->
     <div id="sprintsList" class="space-y-4">
-        <!-- Los sprints se cargarán dinámicamente aquí -->
+        <!-- Los sprints se cargarï¿½n dinï¿½micamente aquï¿½ -->
     </div>
 
-    <!-- Botón Crear fijo -->
+    <!-- Botï¿½n Crear fijo -->
     <button class="fixed bottom-6 right-6 px-6 py-3 bg-green-600 text-white font-semibold rounded-full shadow-md hover:bg-green-700">
         <a id="addSprintButton" href="#">
-            + Añadir Sprint
+            + Aï¿½adir Sprint
         </a>
     </button>
 </div>
@@ -32,7 +32,7 @@
             const projectId = urlPath.split('/').pop();
             const addSprintUrl = '@Url.Action("CrearEditarSprint", "ProductOwner")' + '?codigoProyecto=' + projectId;
 
-            // Asignar la URL al botón
+            // Asignar la URL al botï¿½n
             $('#addSprintButton').attr('href', addSprintUrl);
 
             $.ajax({
@@ -62,7 +62,9 @@
                                         </a>
                                     </button>
                                     <button class="px-4 py-2 bg-yellow-500 text-white font-semibold rounded-md shadow-md hover:bg-yellow-600">
-                                        Actividades
+                                        <a href="/Actividad/Listar?codigoProyecto=${sprint.codigoProyecto}&codigoSprint=${sprint.codigo}">
+                                            Actividades
+                                        </a>
                                     </button>
                                     <button class="px-4 py-2 bg-purple-500 text-white font-semibold rounded-md shadow-md hover:bg-purple-600">
                                         <a href="@Url.Action("CrearEditarSprint", "ProductOwner")?codigoProyecto=${sprint.codigoProyecto}&sprintId=${sprint.codigo}">
@@ -81,7 +83,7 @@
                     // Evento para eliminar un sprint
                     $('.eliminarSprint').on('click', function () {
                         const sprintId = $(this).data('id');
-                        if (confirm('¿Estás seguro de que deseas eliminar este sprint?')) {
+                        if (confirm('ï¿½Estï¿½s seguro de que deseas eliminar este sprint?')) {
                             $.ajax({
                                 url: '@Url.Action("EliminarSprint", "ProductOwner")',
                                 type: 'POST',

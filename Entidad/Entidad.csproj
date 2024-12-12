@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EntActividad.cs" />
     <Compile Include="EntEquipo.cs" />
     <Compile Include="EntEquipoUsuario.cs" />
     <Compile Include="EntEstado.cs" />
@@ -54,6 +55,7 @@
     <Compile Include="EntRol.cs" />
     <Compile Include="EntSprint.cs" />
     <Compile Include="EntRolProyecto.cs" />
+    <Compile Include="EntTipoActividad.cs" />
     <Compile Include="EntUsuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
