@@ -7,7 +7,7 @@
     <!-- Título de la página -->
     <header class="mb-6">
         <h1 class="text-3xl font-bold text-blue-600">Lista de Insumos</h1>
-        <p class="text-gray-600">Gestión de insumos del sprint 69.</p>
+        <p class="text-gray-900" id="nombreSprint">Cargando...</p>
     </header>
 
     <!-- Tabla de insumos -->
@@ -24,30 +24,97 @@
                 </tr>
             </thead>
             <!-- Cuerpo -->
-            <tbody class="bg-white divide-y divide-gray-200">
-                <!-- Ejemplo de fila (repetir con datos reales) -->
-                <tr>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">1</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">Insumo A</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">Descripción del insumo A</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">10</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                        <!-- Botones de acción -->
-                        <button class="inline-flex items-center px-4 py-2 bg-blue-500 text-white text-xs font-semibold rounded shadow hover:bg-blue-600 focus:ring-2 focus:ring-blue-400">
-                            Editar
-                        </button>
-                        <button class="inline-flex items-center px-4 py-2 bg-red-500 text-white text-xs font-semibold rounded shadow hover:bg-red-600 focus:ring-2 focus:ring-red-400 ml-2">
-                            Eliminar
-                        </button>
-                    </td>
-                </tr>
-                <!-- Acá lo sacas de la bedede pe -->
+            <tbody id="insumosList" class="bg-white divide-y divide-gray-200">
+                <!-- Contenido generado dinámicamente -->
             </tbody>
         </table>
     </div>
 
     <!-- Botón flotante para agregar insumos -->
     <button class="fixed bottom-6 right-6 bg-green-600 text-white rounded-full p-4 shadow-lg hover:bg-green-700 focus:outline-none focus:ring-4 focus:ring-green-400">
-        Agregar
+        <a id="addButton" href="#">
+        + Añadir Insumo
+        </a>
     </button>
 </div>
+
+@section Scripts {
+
+    <script>
+        $(document).ready(function () {
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const sprintId = urlParams.get('sprintId') || 0;
+            const addUrl = '@Url.Action("EditarInsumo", "ProductOwner")' + '?sprintId=' + sprintId;
+            // Asignar la URL al botón
+            $('#addButton').attr('href', addUrl);
+            // Llamada AJAX para obtener los insumos
+            $.ajax({
+                url: '@Url.Action("Insumo", "ProductOwner")',
+                type: 'GET',
+                data: { codigo: sprintId },
+                dataType: 'json',
+                success: function (data) {
+                    if (data.length > 0) {
+                        $('#nombreSprint').text(data[0].nombreSprint);
+
+                        // Iterar sobre los insumos y generar HTML dinámico
+                        var insumosList = $('#insumosList');
+                        insumosList.empty();
+
+                        data.forEach(function (insumo) {
+                            var row = `
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">${insumo.codigo}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">${insumo.nombre}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">${insumo.descripcion}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">${insumo.cantidad}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                        <button class="inline-flex items-center px-4 py-2 bg-blue-500 text-white text-xs font-semibold rounded shadow hover:bg-blue-600 focus:ring-2 focus:ring-blue-400">
+                                            <a href="@Url.Action("EditarInsumo", "ProductOwner")?insumoId=${insumo.codigo}&sprintId=${sprintId}">
+                                                Editar
+                                            </a>
+                                        </button>
+                                        <button class="inline-flex items-center px-4 py-2 bg-red-500 text-white text-xs font-semibold rounded shadow hover:bg-red-600 focus:ring-2 focus:ring-red-400 ml-2 eliminarInsumo" data-id="${insumo.codigo}">
+                                            Eliminar
+                                        </button>
+                                    </td>
+                                </tr>
+                            `;
+                            insumosList.append(row);
+                            // Evento para eliminar un insumo
+                            $('.eliminarInsumo').on('click', function () {
+                                const insumoId = $(this).data('id');
+                                if (confirm('¿Estás seguro de que deseas eliminar este insumo?')) {
+                                    $.ajax({
+                                        url: '@Url.Action("EliminarInsumo", "ProductOwner")',
+                                        type: 'POST',
+                                        data: { codigo: insumoId },
+                                        success: function (response) {
+                                            if (response.resultado) {
+                                                alert("Insumo eliminado exitosamente.");
+                                                location.reload();
+                                            } else {
+                                                alert("Error al eliminar el insumo: " + response.mensaje);
+                                            }
+                                        },
+                                        error: function (error) {
+                                            console.error("Error en la solicitud:", error);
+                                        }
+                                    });
+                                }
+                            });
+
+                        });
+                    } else {
+                        $('#nombreSprint').text('No se encontraron insumos para este sprint.');
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error al cargar los insumos:', error);
+                }
+            });
+
+        });
+    </script>
+}

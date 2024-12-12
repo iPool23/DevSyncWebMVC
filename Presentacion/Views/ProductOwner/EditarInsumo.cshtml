@@ -9,12 +9,13 @@
 <div class="container mx-auto p-6 bg-gray-100 min-h-screen">
     <!-- Título -->
     <header class="mb-6">
-        <h1 class="text-3xl font-bold text-blue-600">Crear Insumo</h1>
-        <p class="text-gray-600">Llena los campos para agregar un nuevo insumo al sprint 69.</p>
+        <h1 class="text-3xl font-bold text-blue-600" id="formTitle">Crear Insumo</h1>
+        <p class="text-gray-600" id="formDescription">Rellena los campos para crear un nuevo insumo.</p>
     </header>
 
     <!-- Formulario -->
-    <form class="bg-white shadow-md rounded-lg p-6 space-y-6">
+    <form id="insumoForm" class="bg-white shadow-md rounded-lg p-6 space-y-6">
+        <input type="hidden" id="insumoId" value="0" />
         <!-- Nombre -->
         <div>
             <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre del insumo</label>
@@ -52,15 +53,84 @@
         <!-- Botones -->
         <div class="flex justify-end space-x-4">
             <!-- Botón cancelar -->
-            <button type="button"
+            <button type="button" id="cancelButton"
                     class="px-4 py-2 bg-gray-500 text-white text-sm font-medium rounded shadow hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-400">
                 Cancelar
             </button>
             <!-- Botón guardar -->
-            <button type="submit"
+            <button type="submit" id="submitButton"
                     class="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400">
                 Guardar
             </button>
         </div>
     </form>
 </div>
+
+@section Scripts {
+    <script>
+    $(document).ready(function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const insumoId = urlParams.get('insumoId') || 0;
+        const sprintId = urlParams.get('sprintId');
+
+        // Cargar datos si es edición
+        if (insumoId > 0) {
+            $("#formTitle").text("Editar Insumo");
+            $("#formDescription").text("Rellena los campos para editar el insumo.");
+            $("#submitButton").text("Actualizar Insumo");
+            $.ajax({
+                url: `@Url.Action("InsumoPorId", "ProductOwner")?codigo=${insumoId}`,
+                type: 'GET',
+                success: function (data) {
+                    if (Array.isArray(data) && data.length > 0) {
+                        const insumo = data[0];
+                        $("#insumoId").val(insumo.codigo);
+                        $("#nombre").val(insumo.nombre);
+                        $("#descripcion").val(insumo.descripcion);
+                        $("#cantidad").val(insumo.cantidad);
+                        
+                    } else {
+                        console.error("Datos no encontrados o respuesta vacía.");
+                    }
+                    console.log(data);
+                },
+                error: function (error) {
+                    console.error("Error al cargar el insumo:", error);
+                }
+            });
+        }
+
+        // Guardar (Registrar o Editar)
+        $("#insumoForm").on("submit", function (e) {
+            e.preventDefault();
+            const insumo = {
+                codigo: $("#insumoId").val(), // Para el insumo
+                nombre: $("#nombre").val(),
+                descripcion: $("#descripcion").val(),
+                cantidad: $('#cantidad').val(),
+                objSprint: { codigo: sprintId } // Código del sprint
+            };
+            $.ajax({
+                url: '@Url.Action("GuardarInsumo", "ProductOwner")',
+                type: 'POST',
+                data: JSON.stringify(insumo),
+                contentType: "application/json; charset=utf-8",
+                success: function (response) {
+                    alert(response.resultado ? "Operación exitosa" : "Error al guardar el insumo");
+                    window.location.href = `/ProductOwner/ListarInsumos?sprintId=${sprintId}`;
+                },
+                error: function (error) {
+                    console.error("Error al guardar el insumo:", error);
+                    console.log("DATOS DE INSUMO")
+                    console.log(insumo)
+                }
+            });
+        });
+
+        // Botón Cancelar
+        $("#cancelButton").on("click", function () {
+            window.location.href = `/ProductOwner/ListarInsumos?sprintId=${sprintId}`;
+        });
+    });
+    </script>
+}

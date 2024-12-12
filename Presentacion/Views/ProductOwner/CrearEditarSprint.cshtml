@@ -3,68 +3,121 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<!-- Ese moradito es para que le agregen su funcionalidad, wachines uwu -->
-
 <div class="container mx-auto p-6 bg-gray-100 min-h-screen">
-    <!-- Título del formulario -->
     <header class="mb-6">
-        <h1 class="text-3xl font-bold text-blue-600">
-            {{ editMode ? 'Editar Sprint' : 'Crear Sprint' }}
-        </h1>
-        <p class="text-gray-600">
-            Rellena los campos para {{ editMode ? 'editar' : 'crear' }} un sprint.
-        </p>
+        <h1 class="text-3xl font-bold text-blue-600" id="formTitle">Crear Sprint</h1>
+        <p class="text-gray-600" id="formDescription">Rellena los campos para crear un nuevo sprint.</p>
     </header>
 
-    <!-- Formulario -->
-    <form class="bg-white p-6 rounded-lg shadow-md space-y-4">
+    <form id="sprintForm" class="bg-white p-6 rounded-lg shadow-md space-y-4">
+        <input type="hidden" id="sprintId" value="0" />
+
+        <!-- Nombre -->
+        <div>
+            <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre</label>
+            <input type="text" id="nombre" name="nombre" class="mt-1 block w-full p-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Sprint 1" required />
+        </div>
 
         <!-- Progreso -->
         <div>
             <label for="progreso" class="block text-sm font-medium text-gray-700">Progreso (%)</label>
-            <input type="number"
-                   id="progreso"
-                   name="progreso"
-                   class="mt-1 block w-full p-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                   placeholder="0-100"
-                   value="{{ sprintData?.progreso ?? 0 }}"
-                   min="0"
-                   max="100"
-                   required />
+            <input type="number" id="progreso" name="progreso" class="mt-1 block w-full p-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="0-100" min="0" max="100" required />
         </div>
 
-        <!-- Fecha Inicio -->
+        <!-- Fechas -->
         <div>
             <label for="fechaInicio" class="block text-sm font-medium text-gray-700">Fecha de Inicio</label>
-            <input type="date"
-                   id="fechaInicio"
-                   name="fechaInicio"
-                   class="mt-1 block w-full p-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                   value="{{ sprintData?.fechaInicio ?? '' }}"
-                   required />
+            <input type="date" id="fechaInicio" name="fechaInicio" class="mt-1 block w-full p-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required />
         </div>
-
-        <!-- Fecha Fin -->
         <div>
             <label for="fechaFin" class="block text-sm font-medium text-gray-700">Fecha de Fin</label>
-            <input type="date"
-                   id="fechaFin"
-                   name="fechaFin"
-                   class="mt-1 block w-full p-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                   value="{{ sprintData?.fechaFin ?? '' }}"
-                   required />
+            <input type="date" id="fechaFin" name="fechaFin" class="mt-1 block w-full p-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required />
+        </div>
+
+        <!-- Lider -->
+        <div>
+            <label for="lider" class="block text-sm font-medium text-gray-700">Líder</label>
+            <input type="number" id="lider" name="lider" class="mt-1 block w-full p-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Código del Líder" required />
         </div>
 
         <!-- Botones -->
         <div class="flex justify-between">
-            <button type="button"
-                    class="px-4 py-2 bg-gray-400 text-white font-semibold rounded-md shadow-md hover:bg-gray-500">
-                Cancelar
-            </button>
-            <button type="submit"
-                    class="px-6 py-2 bg-green-600 text-white font-semibold rounded-md shadow-md hover:bg-green-700">
-                {{ editMode ? 'Actualizar Sprint' : 'Crear Sprint' }}
-            </button>
+            <button type="button" id="cancelButton" class="px-4 py-2 bg-gray-400 text-white font-semibold rounded-md shadow-md hover:bg-gray-500">Cancelar</button>
+            <button type="submit" id="submitButton" class="px-6 py-2 bg-green-600 text-white font-semibold rounded-md shadow-md hover:bg-green-700">Crear Sprint</button>
         </div>
     </form>
 </div>
+
+
+@section Scripts {
+    <script>
+    $(document).ready(function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const projectId = urlParams.get('codigoProyecto');
+        const sprintId = urlParams.get('sprintId') || 0;
+
+        // Cargar datos si es edición
+        if (sprintId > 0) {
+            $("#formTitle").text("Editar Sprint");
+            $("#formDescription").text("Rellena los campos para editar el sprint.");
+            $("#submitButton").text("Actualizar Sprint");
+            $.ajax({
+                url: `@Url.Action("ObtenerSprintPorId", "ProductOwner")?codigo=${sprintId}`,
+                type: 'GET',
+                success: function (data) {
+                    if (Array.isArray(data) && data.length > 0) {
+                        const sprint = data[0];
+                        const fechaInicio = sprint.fechaInicio.split("-").reverse().join("-");
+                        const fechaFin = sprint.fechaFin.split("-").reverse().join("-");
+                        $("#sprintId").val(sprint.codigo);
+                        $("#nombre").val(sprint.nombre);
+                        $("#progreso").val(sprint.progreso);
+                        $("#fechaInicio").val(fechaInicio);
+                        $("#fechaFin").val(fechaFin);
+                        $("#lider").val(sprint.usuarioCodigo);
+                    } else {
+                        console.error("Datos no encontrados o respuesta vacía.");
+                    }
+                    console.log(data);
+                },
+                error: function (error) {
+                    console.error("Error al cargar el sprint:", error);
+                }
+            });
+        }
+
+        // Guardar (Registrar o Editar)
+        $("#sprintForm").on("submit", function (e) {
+            e.preventDefault();
+            const sprint = {
+                codigo: $("#sprintId").val(),
+                nombre: $("#nombre").val(),
+                progreso: $("#progreso").val(),
+                fechaInicio: $('#fechaInicio').val(),
+                fechaFin: $('#fechaFin').val(),
+                objUsuario: { iCodigo: $('#lider').val() }, // Código del líder
+                objProyecto: { iCodigo: `${projectId}` } // Código del proyecto
+            };
+
+            $.ajax({
+                url: '@Url.Action("GuardarSprint", "ProductOwner")',
+                type: 'POST',
+                data: JSON.stringify(sprint),
+                contentType: "application/json; charset=utf-8",
+                success: function (response) {
+                    alert(response.resultado ? "Operación exitosa" : "Error al guardar el sprint");
+                    window.location.href = `/ProductOwner/ListarSprints/${projectId}`;
+                },
+                error: function (error) {
+                    console.error("Error al guardar el sprint:", error);
+                }
+            });
+        });
+
+        // Botón Cancelar
+        $("#cancelButton").on("click", function () {
+            window.location.href = `/ProductOwner/ListarSprints/${projectId}`;
+        });
+    });
+    </script>
+}
