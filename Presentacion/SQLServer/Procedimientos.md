@@ -1584,3 +1584,171 @@ BEGIN
     INNER JOIN rol r ON u.codigoRol = r.codigo
     WHERE u.correo = @Correo
 END
+
+-- ---------------------------------------- --
+--    Stored Procedure to Create a Sprint   --
+-- ---------------------------------------- --
+
+CREATE OR ALTER PROCEDURE SP_CrearSprintWeb
+    @nombre VARCHAR(100),
+	@progreso INT,
+    @fechaInicio DATE,
+    @fechaFin DATE,
+    @codigoLider INT,
+    @codigoProyecto INT
+AS
+BEGIN
+    INSERT INTO sprint (nombre, progreso, fechaInicio, fechaFin, codigoLider, codigoProyecto)
+    VALUES (@nombre, @progreso, @fechaInicio, @fechaFin, @codigoLider, @codigoProyecto)
+END
+GO
+
+-- Stored Procedure to Read Sprints
+CREATE OR ALTER PROCEDURE SP_ObtenerSprintsWeb 
+    @codigoProyecto INT
+AS
+BEGIN
+    SELECT 
+        s.codigo,
+        s.nombre,
+        s.progreso,
+        s.fechaInicio,
+        s.fechaFin,
+        l.codigo AS codigoLider,
+        l.nombres AS lider,
+        p.codigo AS codigoProyecto,
+        p.nombre AS proyecto
+    FROM 
+        Sprint s
+    JOIN 
+        Usuario l ON s.codigoLider = l.codigo
+    JOIN 
+        Proyecto p ON s.codigoProyecto = p.codigo
+    WHERE 
+        p.codigo = @codigoProyecto
+    ORDER BY 
+        s.fechaInicio DESC;
+END
+GO
+
+-- Stored Procedure to Read sprints
+CREATE OR ALTER PROCEDURE SP_ObtenerSprintPorCodigoWeb 
+    @codigoSprint INT
+AS
+BEGIN
+    SELECT 
+        s.codigo,
+        s.nombre,
+        s.progreso,
+        s.fechaInicio,
+        s.fechaFin,
+        l.codigo AS codigoLider,
+        l.nombres AS lider,
+        p.codigo AS codigoProyecto,
+        p.nombre AS proyecto
+    FROM 
+        Sprint s
+    JOIN 
+        Usuario l ON s.codigoLider = l.codigo
+    JOIN 
+        Proyecto p ON s.codigoProyecto = p.codigo
+    WHERE 
+        s.codigo = @codigoSprint; -- Filtro espec�fico por c�digo de sprint
+END
+GO
+
+
+-- Stored Procedure to Update a Sprint
+CREATE OR ALTER PROCEDURE SP_ActualizarSprintWeb
+    @codigo INT,
+    @nombre VARCHAR(100),
+	@progreso INT,
+    @fechaInicio DATE,
+    @fechaFin DATE,
+    @codigoLider INT,
+    @codigoProyecto INT
+AS
+BEGIN
+    UPDATE sprint
+    SET nombre = @nombre,
+		progreso = @progreso,
+        fechaInicio = @fechaInicio,
+        fechaFin = @fechaFin,
+        codigoLider = @codigoLider,
+        codigoProyecto = @codigoProyecto
+    WHERE codigo = @codigo
+END
+GO
+
+-- Stored Procedure to Delete a Sprint
+CREATE OR ALTER PROCEDURE SP_EliminarSprintWeb
+    @codigo INT
+AS
+BEGIN
+    DELETE FROM sprint WHERE codigo = @codigo
+END
+GO
+
+--- INSUMOS ---
+
+CREATE OR ALTER PROCEDURE SP_ObtenerInsumosPorCodigoSprint
+    @codigoSprint INT
+AS
+BEGIN
+    SELECT i.codigo, i.nombre, i.descripcion, i.cantidad, i.codigoSprint, s.nombre AS nombreSprint
+    FROM insumo i
+    INNER JOIN sprint s ON i.codigoSprint = s.codigo
+    WHERE i.codigoSprint = @codigoSprint
+    ORDER BY i.codigo
+END
+GO
+CREATE OR ALTER PROCEDURE SP_ObtenerInsumosPorCodigoInsumo
+    @codigoInsumo INT
+AS
+BEGIN
+    SELECT i.codigo, i.nombre, i.descripcion, i.cantidad, i.codigoSprint, s.nombre AS nombreSprint
+    FROM insumo i
+    INNER JOIN sprint s ON i.codigoSprint = s.codigo
+    WHERE i.codigo = @codigoInsumo
+    ORDER BY i.codigo
+END
+GO
+
+
+-- Registrar insumo en sprint
+CREATE OR ALTER PROCEDURE SP_RegistrarInsumoWeb
+    @nombre NVARCHAR(100),
+    @descripcion NVARCHAR(255),
+    @cantidad INT,
+    @codigoSprint INT
+AS
+BEGIN
+    INSERT INTO insumo (nombre, descripcion, cantidad, codigoSprint)
+    VALUES (@nombre, @descripcion, @cantidad, @codigoSprint)
+END;
+GO
+
+-- Actualizar insumo
+CREATE OR ALTER PROCEDURE SP_ActualizarInsumoWeb
+    @codigo INT,
+	@nombre NVARCHAR(100),
+	@descripcion NVARCHAR(255),
+	@cantidad INT
+AS
+BEGIN
+    UPDATE insumo
+    SET nombre = @nombre,
+        descripcion = @descripcion,
+		cantidad = @cantidad
+    WHERE codigo = @codigo
+END
+GO
+-- Eliminar Insumo
+CREATE OR ALTER PROCEDURE SP_EliminarInsumo
+    @codigo INT
+AS
+BEGIN
+    DELETE FROM insumo WHERE codigo = @codigo
+END
+GO
+

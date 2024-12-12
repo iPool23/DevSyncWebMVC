@@ -12,6 +12,7 @@ namespace Presentacion.Controllers
 {
     public class ProductOwnerController : Controller
     {
+
         // GET: ProductOwner
 
         // Proyectos
@@ -92,17 +93,6 @@ namespace Presentacion.Controllers
         public ActionResult EditarComentario()
         {
             return View();
-        }
-
-        // Lógica uwu
-
-        public JsonResult ListarProyectos()
-        {
-            List<EntProyecto> lista = new List<EntProyecto>();
-
-            lista = new NegProyecto().Listar();
-
-            return Json(lista, JsonRequestBehavior.AllowGet);
         }
 
         // Insumos //

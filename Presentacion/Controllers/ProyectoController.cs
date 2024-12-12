@@ -12,7 +12,6 @@ namespace Presentacion.Controllers
     {
         private NegProyecto negProyecto = new NegProyecto();
         private NegUsuario negUsuario = new NegUsuario();
-
         private NegRol negRol = new NegRol();
 
         // GET: Proyecto/Listar
@@ -61,7 +60,7 @@ namespace Presentacion.Controllers
             return View("ProyectoForm", proyecto);
         }
 
-        // GET: Proyecto/EditarProyecto/5
+        // ? GET: Proyecto/EditarProyecto/5
         public ActionResult EditarProyecto(int id)
         {
             if (Session["Usuario"] == null)
@@ -183,7 +182,6 @@ namespace Presentacion.Controllers
                 var usuario = negUsuario.ObtenerUsuarioPorCorreo(CorreoUsuario);
                 if (usuario == null)
                 {
-                    TempData["ErrorMessage"] = "Usuario no encontrado.";
                     return RedirectToAction("EditarUsuariosEquipo", new { id = iCodigo });
                 }
 
@@ -191,22 +189,18 @@ namespace Presentacion.Controllers
                 var proyecto = negProyecto.ObtenerProyectoPorId(iCodigo);
                 if (proyecto == null || proyecto.eCodigoEquipo == null)
                 {
-                    TempData["ErrorMessage"] = "Proyecto no encontrado o no tiene equipo asignado.";
                     return RedirectToAction("EditarUsuariosEquipo", new { id = iCodigo });
                 }
 
                 // Verificar si el usuario ya está en el equipo
                 if (negUsuario.UsuarioEstaEnEquipo(proyecto.eCodigoEquipo.iCodigo, usuario.iCodigo))
                 {
-                    TempData["ErrorMessage"] = "El usuario ya es miembro del equipo.";
                     return RedirectToAction("EditarUsuariosEquipo", new { id = iCodigo });
                 }
 
                 // Agregar usuario al equipo y asignar rol en el proyecto (rol 7 = User)
                 negUsuario.AgregarUsuarioAEquipo(proyecto.eCodigoEquipo.iCodigo, usuario.iCodigo);
-                negProyecto.AsignarRolUsuarioEnProyecto(iCodigo, usuario.iCodigo, 7); // Asignamos rol 7 (User)
-
-                TempData["SuccessMessage"] = "Usuario agregado exitosamente al proyecto.";
+                negProyecto.AsignarRolUsuarioEnProyecto(iCodigo, usuario.iCodigo, 7); 
             }
             catch (Exception ex)
             {
@@ -216,6 +210,7 @@ namespace Presentacion.Controllers
             return RedirectToAction("EditarUsuariosEquipo", new { id = iCodigo });
         }
 
+        // POST: Actúa como un selector de roles
         [HttpPost]
         public ActionResult CambiarRolUsuarioProyecto(int proyectoId, int usuarioId, int nuevoRol)
         {
@@ -230,6 +225,7 @@ namespace Presentacion.Controllers
             }
         }
 
+        // POST: Elimina un usuario de un proyecto mediante un modal
         [HttpPost]
         public ActionResult EliminarUsuarioProyecto(int proyectoId, int usuarioId)
         {

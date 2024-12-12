@@ -8,7 +8,7 @@
 <main class="container-body -ml-24">
     <div>
         <!-- Breadcrumb -->
-        <nav class="mb-6 rounded">
+        <nav class="mb-6 rounded justify-between">
             <ol class="flex items-center space-x-2 text-gray-400">
                 <li>
                     <a href="@Url.Action("Index", "ProductOwner")" class="flex items-center hover:text-white">
@@ -96,6 +96,12 @@
                                class="flex-1 px-4 py-2 text-center rounded text-white bg-yellow-500 hover:bg-yellow-700">
                                 Editar Usuarios
                             </a>
+                            
+                            <a href='/ProductOwner/ListarSprints/@proyecto.iCodigo'
+                                class="flex-1 px-4 py-2 text-center rounded text-white bg-black hover:bg-gray-700">
+                                Listar Sprints
+                            </a>
+
                         </div>
                     </div>
                 </div>
