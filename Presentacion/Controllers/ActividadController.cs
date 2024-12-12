@@ -30,7 +30,7 @@ namespace Presentacion.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ActividadForm(EntActividad actividad, int codigoProyecto)
+        public ActionResult ActividadForm(EntActividad actividad, int? codigoProyecto)
         {
             if (ModelState.IsValid)
             {

@@ -1,0 +1,80 @@
+﻿@model Entidad.EntTarea
+
+@{
+    ViewBag.Title = Model.iCodigo == 0 ? "Nueva Tarea" : "Editar Tarea";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mx-auto p-6 max-w-3xl">
+    <div class="bg-white rounded-lg shadow-lg p-8">
+        <h2 class="text-2xl font-bold mb-8">@ViewBag.Title</h2>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => m.iCodigo)
+            @Html.HiddenFor(m => m.eActividad.iCodigo)
+            @Html.HiddenFor(m => m.eUsuario.iCodigo)
+
+            <div class="space-y-6">
+                <div class="form-group">
+                    <label class="block text-sm font-medium text-gray-700">Nombre</label>
+                    @Html.TextBoxFor(m => m.sNombre, new { @class = "mt-1 block w-full rounded-md border-gray-300 shadow-sm" })
+                    @Html.ValidationMessageFor(m => m.sNombre, "", new { @class = "text-red-500 text-sm" })
+                </div>
+
+                <div class="form-group">
+                    <label class="block text-sm font-medium text-gray-700">Descripción</label>
+                    @Html.TextAreaFor(m => m.sDescripcion, new { @class = "mt-1 block w-full rounded-md border-gray-300 shadow-sm", rows = "3" })
+                    @Html.ValidationMessageFor(m => m.sDescripcion, "", new { @class = "text-red-500 text-sm" })
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="form-group">
+                        <label class="block text-sm font-medium text-gray-700">Fecha Inicio</label>
+                        @Html.TextBoxFor(m => m.dtFechaInicio, "{0:yyyy-MM-dd}", new { 
+                            @class = "mt-1 block w-full rounded-md border-gray-300 shadow-sm", 
+                            type = "date",
+                            min = "1753-01-01",
+                            max = "9999-12-31"
+                        })
+                        @Html.ValidationMessageFor(m => m.dtFechaInicio, "", new { @class = "text-red-500 text-sm" })
+                    </div>
+
+                    <div class="form-group">
+                        <label class="block text-sm font-medium text-gray-700">Fecha Vencimiento</label>
+                        @Html.TextBoxFor(m => m.dtFechaVencimiento, "{0:yyyy-MM-dd}", new { 
+                            @class = "mt-1 block w-full rounded-md border-gray-300 shadow-sm", 
+                            type = "date",
+                            min = "1753-01-01",
+                            max = "9999-12-31"
+                        })
+                        @Html.ValidationMessageFor(m => m.dtFechaVencimiento, "", new { @class = "text-red-500 text-sm" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="block text-sm font-medium text-gray-700">Prioridad</label>
+                    @Html.DropDownListFor(m => m.iPrioridad, (SelectList)ViewBag.Prioridades, new { @class = "mt-1 block w-full rounded-md border-gray-300 shadow-sm" })
+                    @Html.ValidationMessageFor(m => m.iPrioridad, "", new { @class = "text-red-500 text-sm" })
+                </div>
+
+                <div class="flex justify-end space-x-4 pt-6">
+                    <a href="@Url.Action("Listar", new { codigoActividad = Model.eActividad.iCodigo })"
+                       class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">
+                        Cancelar
+                    </a>
+                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                        Guardar
+                    </button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<script>
+    document.querySelector('[name="dtFechaInicio"]').addEventListener('change', function() {
+        document.querySelector('[name="dtFechaVencimiento"]').min = this.value;
+    });
+</script>

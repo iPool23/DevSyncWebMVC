@@ -51,6 +51,7 @@
     <Compile Include="DatProyecto.cs" />
     <Compile Include="DatRol.cs" />
     <Compile Include="DatRolProyecto.cs" />
+    <Compile Include="DatTarea.cs" />
     <Compile Include="DatTipoActividad.cs" />
     <Compile Include="DatUsuario.cs" />
     <Compile Include="DatSprint.cs" />

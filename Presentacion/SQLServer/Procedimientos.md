@@ -1848,3 +1848,78 @@ BEGIN
     DELETE FROM actividad WHERE codigo = @Codigo
 END
 GO
+
+-- ------------------------------------ --
+--               T A R E A              --
+-- ------------------------------------ --
+
+CREATE OR ALTER PROCEDURE SP_ListarTareasPorActividadWeb
+    @CodigoActividad INT
+AS
+BEGIN
+    SELECT t.*, u.nombres as nombreUsuario, e.nombre as nombreEstado
+    FROM tarea t
+    INNER JOIN usuario u ON t.codigoUsuario = u.codigo
+    INNER JOIN estado e ON t.codigoEstado = e.codigo
+    WHERE t.codigoActividad = @CodigoActividad
+END
+GO
+
+CREATE OR ALTER PROCEDURE SP_RegistrarTareaWeb
+    @Nombre VARCHAR(100),
+    @Descripcion VARCHAR(255),
+    @FechaInicio DATETIME,
+    @FechaVencimiento DATETIME,
+    @Prioridad INT,
+    @CodigoUsuario INT,
+    @CodigoActividad INT
+AS
+BEGIN
+    INSERT INTO tarea (nombre, descripcion, fechaInicio, fechaVencimiento, prioridad, progreso, codigoUsuario, codigoActividad, codigoEstado)
+    VALUES (@Nombre, @Descripcion, @FechaInicio, @FechaVencimiento, @Prioridad, 0, @CodigoUsuario, @CodigoActividad, 1)
+END
+GO
+
+CREATE OR ALTER PROCEDURE SP_ActualizarTareaWeb
+    @Codigo INT,
+    @Nombre VARCHAR(100),
+	@Descripcion VARCHAR(255),
+    @FechaActualizacion DATETIME,
+    @FechaVencimiento DATETIME,
+    @Prioridad INT,
+    @Progreso INT,
+    @CodigoUsuario INT,
+    @CodigoEstado INT
+AS
+BEGIN
+    UPDATE tarea SET
+        nombre = @Nombre,
+		descripcion = @Descripcion,
+        fechaActualizacion = @FechaActualizacion,
+        fechaVencimiento = @FechaVencimiento,
+        prioridad = @Prioridad,
+        progreso = @Progreso,
+        codigoUsuario = @CodigoUsuario,
+        codigoEstado = @CodigoEstado
+    WHERE codigo = @Codigo
+END
+GO
+
+CREATE OR ALTER PROCEDURE SP_ObtenerTareaPorCodigoWeb
+    @Codigo INT
+AS
+BEGIN
+    SELECT t.*, u.nombres as nombreUsuario, e.nombre as nombreEstado
+    FROM tarea t
+    INNER JOIN usuario u ON t.codigoUsuario = u.codigo
+    INNER JOIN estado e ON t.codigoEstado = e.codigo
+    WHERE t.codigo = @Codigo
+END
+GO
+
+CREATE OR ALTER PROCEDURE SP_EliminarTareaWeb
+    @Codigo INT
+AS
+BEGIN
+    DELETE FROM tarea WHERE codigo = @Codigo
+END

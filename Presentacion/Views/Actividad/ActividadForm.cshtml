@@ -37,6 +37,7 @@
             @Html.AntiForgeryToken()
             @Html.HiddenFor(m => m.iCodigo)
             @Html.HiddenFor(m => m.eSprint.codigo)
+            <input type="hidden" name="codigoProyecto" value="@ViewBag.CodigoProyecto" />
 
             <div class="space-y-6">
                 <div class="form-group">

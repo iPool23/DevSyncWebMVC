@@ -55,6 +55,7 @@
     <Compile Include="EntRol.cs" />
     <Compile Include="EntSprint.cs" />
     <Compile Include="EntRolProyecto.cs" />
+    <Compile Include="EntTarea.cs" />
     <Compile Include="EntTipoActividad.cs" />
     <Compile Include="EntUsuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

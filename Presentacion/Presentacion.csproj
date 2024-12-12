@@ -123,6 +123,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProductOwnerController.cs" />
     <Compile Include="Controllers\ProyectoController.cs" />
+    <Compile Include="Controllers\TareaController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -233,6 +234,8 @@
     <Content Include="Views\Proyecto\EditarUsuariosEquipo.cshtml" />
     <Content Include="Views\Actividad\Listar.cshtml" />
     <Content Include="Views\Actividad\ActividadForm.cshtml" />
+    <Content Include="Views\Tarea\Listar.cshtml" />
+    <Content Include="Views\Tarea\TareaForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
