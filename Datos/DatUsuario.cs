@@ -1,4 +1,6 @@
-﻿using System.Data;
+﻿using System.Collections.Generic;
+using System;
+using System.Data;
 using System.Data.SqlClient;
 using Entidad;
 
@@ -78,15 +80,15 @@ namespace Datos
 
         public EntUsuario ObtenerUsuarioPorCorreo(string correo)
         {
-            using (SqlConnection connection = new SqlConnection(DatConexion.sCadena))
+            using (SqlConnection conn = new SqlConnection(DatConexion.sCadena))
             {
-                using (SqlCommand command = new SqlCommand("SP_ObtenerUsuarioPorCorreo", connection))
+                conn.Open();
+                using (SqlCommand cmd = new SqlCommand("SP_ObtenerUsuarioPorCorreo", conn))
                 {
-                    command.CommandType = CommandType.StoredProcedure;
-                    command.Parameters.AddWithValue("@Correo", correo);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Correo", correo);
 
-                    connection.Open();
-                    using (SqlDataReader reader = command.ExecuteReader())
+                    using (SqlDataReader reader = cmd.ExecuteReader())
                     {
                         if (reader.Read())
                         {
@@ -95,10 +97,9 @@ namespace Datos
                                 iCodigo = (int)reader["iCodigo"],
                                 sNombreUsuario = reader["sNombreUsuario"].ToString(),
                                 sCorreo = reader["sCorreo"].ToString(),
-                                sContrasenia = reader["sContrasenia"].ToString(),
-                                sNombres = reader["sNombres"].ToString(),
-                                sApellidos = reader["sApellidos"].ToString(),
-                                sImgUrl = reader["sImgUrl"].ToString(),
+                                sNombres = reader["sNombres"]?.ToString(),
+                                sApellidos = reader["sApellidos"]?.ToString(),
+                                sImgUrl = reader["sImgUrl"]?.ToString(),
                                 eCodigoRol = new EntRol
                                 {
                                     iCodigo = (int)reader["iCodigoRol"],
@@ -106,27 +107,53 @@ namespace Datos
                                 }
                             };
                         }
+                        return null;
                     }
                 }
             }
-            return null;
         }
 
-        public bool UsuarioEstaEnProyecto(int codigoProyecto, int codigoUsuario)
+        public bool UsuarioEstaEnEquipo(int codigoEquipo, int codigoUsuario)
         {
-            using (SqlConnection connection = new SqlConnection(DatConexion.sCadena))
+            using (SqlConnection conn = new SqlConnection(DatConexion.sCadena))
             {
-                using (SqlCommand command = new SqlCommand("SP_UsuarioEstaEnProyecto", connection))
-                {
-                    command.CommandType = CommandType.StoredProcedure;
-                    command.Parameters.AddWithValue("@CodigoProyecto", codigoProyecto);
-                    command.Parameters.AddWithValue("@CodigoUsuario", codigoUsuario);
+                conn.Open();
+                string query = "SELECT COUNT(*) FROM equipo_usuario WHERE codigoEquipo = @EquipoId AND codigoUsuario = @UsuarioId";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@EquipoId", codigoEquipo);
+                cmd.Parameters.AddWithValue("@UsuarioId", codigoUsuario);
 
-                    connection.Open();
-                    int conteo = (int)command.ExecuteScalar();
-                    return conteo > 0;
+                int count = (int)cmd.ExecuteScalar();
+                return count > 0;
+            }
+        }
+
+        public void AgregarUsuarioAEquipo(int codigoEquipo, int codigoUsuario)
+        {
+            using (SqlConnection conn = new SqlConnection(DatConexion.sCadena))
+            {
+                conn.Open();
+                using (var transaction = conn.BeginTransaction())
+                {
+                    try
+                    {
+                        string query = "INSERT INTO equipo_usuario (codigoEquipo, codigoUsuario) VALUES (@EquipoId, @UsuarioId)";
+                        using (SqlCommand cmd = new SqlCommand(query, conn, transaction))
+                        {
+                            cmd.Parameters.AddWithValue("@EquipoId", codigoEquipo);
+                            cmd.Parameters.AddWithValue("@UsuarioId", codigoUsuario);
+                            cmd.ExecuteNonQuery();
+                        }
+                        transaction.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        throw new Exception("Error al agregar usuario al equipo: " + ex.Message);
+                    }
                 }
             }
         }
+
     }
 }

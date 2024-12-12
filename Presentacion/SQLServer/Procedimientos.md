@@ -1,7 +1,7 @@
 -- PROCEDIMIENTO ALMACENADOS PARA DEVSYNC
 -- BASE DE DATOS: bdGestionPro
 -- Integrantes: 
---   - Acuña Mendoza Irvin Yair
+--   - Acuï¿½a Mendoza Irvin Yair
 --   - Deza Millones Pool Anthony
 --   - Maza Huaman Jorge Alexander
 --   - Pantaleon Villegas Victor Anthony
@@ -21,7 +21,7 @@ BEGIN
     -- Declarar una variable para el resultado
     DECLARE @Resultado INT;
 
-    -- Verificar si el usuario existe con el nombre de usuario y contraseña
+    -- Verificar si el usuario existe con el nombre de usuario y contraseï¿½a
     SELECT @Resultado = COUNT(*)
     FROM Usuario
     WHERE NombreUsuario = @NombreUsuario
@@ -116,7 +116,7 @@ BEGIN
 END
 GO
 
--- ====================================== Acuña Mendoza Irvin Yair ======================================
+-- ====================================== Acuï¿½a Mendoza Irvin Yair ======================================
 
 -- Registrar insumo en sprint
 CREATE OR ALTER PROCEDURE SP_RegistrarInsumo
@@ -494,7 +494,7 @@ BEGIN
     WHERE 
         e.codigo = @codigoEquipo
     ORDER BY 
-        e.codigo, u.codigo; -- Ordena por el código del equipo y luego por el código del usuario
+        e.codigo, u.codigo; -- Ordena por el cï¿½digo del equipo y luego por el cï¿½digo del usuario
 END;
 GO
 
@@ -580,7 +580,7 @@ BEGIN
     END
     ELSE
     BEGIN
-        RAISERROR('El nombre de la etiqueta ya existe o está eliminado.', 16, 1);
+        RAISERROR('El nombre de la etiqueta ya existe o estï¿½ eliminado.', 16, 1);
     END
 END;
 GO
@@ -599,7 +599,7 @@ BEGIN
     END
     ELSE
     BEGIN
-        RAISERROR('La etiqueta no existe o está eliminada.', 16, 1);
+        RAISERROR('La etiqueta no existe o estï¿½ eliminada.', 16, 1);
     END
 END;
 GO
@@ -630,7 +630,7 @@ BEGIN
     END
     ELSE
     BEGIN
-        RAISERROR('La etiqueta no existe o ya está eliminada.', 16, 1);
+        RAISERROR('La etiqueta no existe o ya estï¿½ eliminada.', 16, 1);
     END
 END;
 GO
@@ -644,21 +644,21 @@ BEGIN
 
     -- Selecciona las etiquetas asociadas al ID de tarea especificado
     SELECT 
-        t.codigo AS CodigoTarea,          -- Muestra el código de la tarea
+        t.codigo AS CodigoTarea,          -- Muestra el cï¿½digo de la tarea
         t.nombre AS NombreTarea,          -- Muestra el nombre de la tarea
-        e.codigo AS CodigoEtiqueta,      -- Muestra el código de la etiqueta
+        e.codigo AS CodigoEtiqueta,      -- Muestra el cï¿½digo de la etiqueta
         e.nombre AS NombreEtiqueta       -- Muestra el nombre de la etiqueta
     FROM 
         tarea_etiqueta te
     INNER JOIN 
         etiqueta e ON te.codigoEtiqueta = e.codigo
     INNER JOIN
-        tarea t ON te.codigoTarea = t.codigo   -- Corregido para unir con la tarea usando el código de tarea
+        tarea t ON te.codigoTarea = t.codigo   -- Corregido para unir con la tarea usando el cï¿½digo de tarea
     WHERE 
         te.codigoTarea = @TareaID        -- Filtra por el ID de la tarea
 		AND te.eliminado ='N'           
 	ORDER BY 
-        e.codigo;  -- Ordena las etiquetas por su código
+        e.codigo;  -- Ordena las etiquetas por su cï¿½digo
 END;
 GO
 
@@ -668,7 +668,7 @@ CREATE OR ALTER PROCEDURE SP_InsertarTareaEtiqueta
     @codigoEtiqueta INT
 AS
 BEGIN
-    -- Verificar si existe una relación con la etiqueta eliminada ('S')
+    -- Verificar si existe una relaciï¿½n con la etiqueta eliminada ('S')
     IF EXISTS (
         SELECT 1
         FROM tarea_etiqueta
@@ -677,7 +677,7 @@ BEGIN
           AND eliminado = 'S'
     )
     BEGIN
-        -- Actualizar la relación existente, cambiando 'eliminado' a 'N'
+        -- Actualizar la relaciï¿½n existente, cambiando 'eliminado' a 'N'
         UPDATE tarea_etiqueta
         SET eliminado = 'N'
         WHERE codigoTarea = @codigoTarea
@@ -687,14 +687,14 @@ BEGIN
         PRINT 'Asignacion de etiqueta restaurada exitosamente.';
     END
     ELSE IF NOT EXISTS (
-        -- Verificar si no existe la relación en absoluto
+        -- Verificar si no existe la relaciï¿½n en absoluto
         SELECT 1
         FROM tarea_etiqueta
         WHERE codigoTarea = @codigoTarea
           AND codigoEtiqueta = @codigoEtiqueta
     )
     BEGIN
-        -- Insertar la nueva relación
+        -- Insertar la nueva relaciï¿½n
         INSERT INTO tarea_etiqueta (codigoTarea, codigoEtiqueta, eliminado)
         VALUES (@codigoTarea, @codigoEtiqueta, 'N');
         
@@ -712,13 +712,13 @@ CREATE OR ALTER PROCEDURE SP_EliminarTareaEtiqueta
     @codigoEtiqueta INT
 AS
 BEGIN
-    -- Verificar si la relación existe y no está eliminada
+    -- Verificar si la relaciï¿½n existe y no estï¿½ eliminada
     IF EXISTS (
         SELECT 1
         FROM tarea_etiqueta
         WHERE codigoTarea = @codigoTarea
         AND codigoEtiqueta = @codigoEtiqueta
-        AND eliminado = 'N' -- Verifica que la relación no esté eliminada
+        AND eliminado = 'N' -- Verifica que la relaciï¿½n no estï¿½ eliminada
     )
     BEGIN
         -- Actualizar la columna 'eliminado' a 'S' (o el valor que uses para marcar como eliminado)
@@ -727,11 +727,11 @@ BEGIN
         WHERE codigoTarea = @codigoTarea
         AND codigoEtiqueta = @codigoEtiqueta;
 
-        PRINT 'Relación de tarea y etiqueta eliminada lógicamente.';
+        PRINT 'Relaciï¿½n de tarea y etiqueta eliminada lï¿½gicamente.';
     END
     ELSE
     BEGIN
-        PRINT 'La relación de tarea y etiqueta no existe o ya está eliminada.';
+        PRINT 'La relaciï¿½n de tarea y etiqueta no existe o ya estï¿½ eliminada.';
     END
 END;
 GO
@@ -763,7 +763,7 @@ CREATE OR ALTER PROCEDURE SP_RegistrarTarea
     @codigoEstado INT
 AS
 BEGIN
-    -- Insertar la nueva tarea con la fecha de actualización igual a la fecha de inicio
+    -- Insertar la nueva tarea con la fecha de actualizaciï¿½n igual a la fecha de inicio
     INSERT INTO tarea (
         nombre, 
         descripcion, 
@@ -851,7 +851,7 @@ BEGIN
     UPDATE tarea
     SET 
         codigoEstado = (SELECT codigo FROM estado WHERE nombre = 'Eliminado'),
-        fechaActualizacion = GETDATE()  -- Actualizamos la fecha de actualización al momento actual
+        fechaActualizacion = GETDATE()  -- Actualizamos la fecha de actualizaciï¿½n al momento actual
     WHERE 
         codigo = @codigoTarea;
 END;
@@ -1020,7 +1020,7 @@ BEGIN
     END
     ELSE
     BEGIN
-        PRINT 'No se encontró un comentario con el código proporcionado';
+        PRINT 'No se encontrï¿½ un comentario con el cï¿½digo proporcionado';
     END
 END;
 GO
@@ -1336,13 +1336,13 @@ BEGIN
 END
 GO
 
--- Stored Procedure to Get Líderes
+-- Stored Procedure to Get Lï¿½deres
 CREATE OR ALTER PROCEDURE SP_ObtenerLideres
 AS
 BEGIN
     SELECT codigo, CONCAT(nombres, ' ', apellidos) AS nombreCompleto
     FROM usuario
-    WHERE codigoRol = (SELECT codigo FROM rol WHERE nombre = 'Líder de Sprint')
+    WHERE codigoRol = (SELECT codigo FROM rol WHERE nombre = 'Lï¿½der de Sprint')
 END
 GO
 
@@ -1354,3 +1354,233 @@ BEGIN
     FROM proyecto
 END
 GO
+
+-- ----------------------------------------- --
+--                    W E B                  --
+-- ----------------------------------------- --
+
+CREATE OR ALTER PROCEDURE SP_ObtenerProyectosPorUsuario
+    @CodigoUsuario INT
+AS
+BEGIN
+    SELECT DISTINCT p.codigo, p.nombre, p.progreso, p.descripcion, p.fechaInicio, p.fechaFin, p.imgUrl,
+                    u.codigo AS codigoLider, u.nombreUsuario AS nombreLider, u.nombres AS nombresLider, u.apellidos AS apellidosLider,
+                    e.codigo AS codigoEquipo, e.nombre AS nombreEquipo,
+                    es.codigo AS codigoEstado, es.nombre AS nombreEstado
+    FROM proyecto p
+    INNER JOIN equipo_usuario eu ON p.codigoEquipo = eu.codigoEquipo
+    INNER JOIN usuario u ON p.codigoLider = u.codigo
+    INNER JOIN equipo e ON p.codigoEquipo = e.codigo
+    INNER JOIN estado es ON p.codigoEstado = es.codigo
+    WHERE eu.codigoUsuario = @CodigoUsuario
+END
+GO
+
+
+CREATE OR ALTER PROCEDURE SP_CrearProyecto
+    @Nombre VARCHAR(255),
+    @Descripcion VARCHAR(255),
+    @ImgUrl VARCHAR(255),
+    @CodigoLider INT,
+    @NombreEquipo VARCHAR(100)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @FechaInicio DATE = GETDATE();
+    DECLARE @FechaFin DATE = DATEADD(WEEK, 1, @FechaInicio);
+    DECLARE @CodigoEstado INT = 1;
+    DECLARE @Progreso INT = 0;
+
+    -- Insertar equipo
+    INSERT INTO equipo (nombre)
+    VALUES (@NombreEquipo);
+    DECLARE @CodigoEquipo INT = SCOPE_IDENTITY();
+
+    -- Asignar usuario al equipo
+    INSERT INTO equipo_usuario (codigoEquipo, codigoUsuario)
+    VALUES (@CodigoEquipo, @CodigoLider);
+
+    -- Insertar proyecto
+    INSERT INTO proyecto (
+        nombre,
+        descripcion,
+        imgUrl,
+        codigoLider,
+        codigoEquipo,
+        fechaInicio,
+        fechaFin,
+        codigoEstado,
+        progreso
+    )
+    VALUES (
+        @Nombre,
+        @Descripcion,
+        @ImgUrl,
+        @CodigoLider,
+        @CodigoEquipo,
+        @FechaInicio,
+        @FechaFin,
+        @CodigoEstado,
+        @Progreso
+    );
+    DECLARE @CodigoProyecto INT = SCOPE_IDENTITY();
+
+    -- Asignar rol al usuario en el proyecto
+    INSERT INTO rol_proyecto (codigoProyecto, codigoUsuario, codigoRol)
+    VALUES (@CodigoProyecto, @CodigoLider, 3); -- Rol 3: LÃ­der de Proyecto
+END
+GO 
+
+CREATE OR ALTER PROCEDURE SP_ActualizarProyectoU
+    @CodigoProyecto INT,
+    @Nombre VARCHAR(255),
+    @Descripcion VARCHAR(255),
+    @ImgUrl VARCHAR(255)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    UPDATE proyecto
+    SET nombre = @Nombre,
+        descripcion = @Descripcion,
+        imgUrl = @ImgUrl
+    WHERE codigo = @CodigoProyecto;
+END
+GO
+
+CREATE OR ALTER PROCEDURE SP_EliminarProyecto
+    @CodigoProyecto INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    BEGIN TRY
+        BEGIN TRANSACTION;
+            
+        DECLARE @CodigoEquipo INT;
+        SELECT @CodigoEquipo = codigoEquipo FROM proyecto WHERE codigo = @CodigoProyecto;
+            
+        DELETE FROM rol_proyecto WHERE codigoProyecto = @CodigoProyecto;
+            
+        DELETE FROM sprint WHERE codigoProyecto = @CodigoProyecto;
+            
+        DELETE FROM proyecto WHERE codigo = @CodigoProyecto;
+            
+        DELETE FROM equipo_usuario WHERE codigoEquipo = @CodigoEquipo;
+            
+        DELETE FROM equipo WHERE codigo = @CodigoEquipo;
+            
+        COMMIT TRANSACTION;
+    END TRY
+    BEGIN CATCH
+        ROLLBACK TRANSACTION;
+        THROW;
+    END CATCH
+END
+GO
+
+CREATE OR ALTER PROCEDURE SP_ActualizarEquipoProyecto
+    @CodigoProyecto INT,
+    @NombreEquipo VARCHAR(100)
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    UPDATE equipo
+    SET nombre = @NombreEquipo
+    WHERE codigo = (
+        SELECT codigoEquipo 
+        FROM proyecto 
+        WHERE codigo = @CodigoProyecto
+    );
+END
+GO
+
+CREATE OR ALTER PROCEDURE SP_ObtenerProyectoId
+    @CodigoProyecto INT
+AS
+BEGIN
+    SELECT 
+        p.*,
+        e.codigo as codigoEquipo,
+        e.nombre as nombreEquipo
+    FROM proyecto p
+    LEFT JOIN equipo e ON p.codigoEquipo = e.codigo
+    WHERE p.codigo = @CodigoProyecto;
+END
+GO
+
+CREATE OR ALTER PROCEDURE SP_ObtenerUsuariosPorProyecto
+    @ProyectoId INT
+AS
+BEGIN
+    SELECT DISTINCT
+        u.codigo AS iCodigo,
+        u.nombreUsuario AS sNombreUsuario,
+        u.correo AS sCorreo,
+        u.nombres AS sNombres,
+        u.apellidos AS sApellidos,
+        u.imgUrl AS sImgUrl,
+        rp.codigoRol AS iCodigoRol,
+        r.nombre AS sNombreRol
+    FROM usuario u
+    INNER JOIN equipo_usuario eu ON u.codigo = eu.codigoUsuario
+    INNER JOIN equipo e ON eu.codigoEquipo = e.codigo
+    INNER JOIN proyecto p ON p.codigoEquipo = e.codigo
+    LEFT JOIN rol_proyecto rp ON rp.codigoUsuario = u.codigo AND rp.codigoProyecto = p.codigo
+    LEFT JOIN rol r ON rp.codigoRol = r.codigo
+    WHERE p.codigo = @ProyectoId;
+END
+
+CREATE PROCEDURE AgregarUsuarioAEquipo
+    @EquipoId INT,
+    @UsuarioId INT
+AS
+BEGIN
+    INSERT INTO equipo_usuario (codigoEquipo, codigoUsuario)
+    VALUES (@EquipoId, @UsuarioId)
+END
+
+CREATE OR ALTER PROCEDURE SP_AsignarRolUsuarioEnProyecto
+    @CodigoProyecto INT,
+    @CodigoUsuario INT,
+    @CodigoRol INT
+AS
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1 
+        FROM rol_proyecto 
+        WHERE codigoProyecto = @CodigoProyecto 
+        AND codigoUsuario = @CodigoUsuario
+    )
+    BEGIN
+        INSERT INTO rol_proyecto (codigoProyecto, codigoUsuario, codigoRol)
+        VALUES (@CodigoProyecto, @CodigoUsuario, @CodigoRol)
+    END
+    ELSE
+    BEGIN
+        UPDATE rol_proyecto
+        SET codigoRol = @CodigoRol
+        WHERE codigoProyecto = @CodigoProyecto 
+        AND codigoUsuario = @CodigoUsuario
+    END
+END
+
+CREATE OR ALTER PROCEDURE SP_ObtenerUsuarioPorCorreo
+    @Correo NVARCHAR(255)
+AS
+BEGIN
+    SELECT 
+        u.codigo AS iCodigo,
+        u.nombreUsuario AS sNombreUsuario,
+        u.correo AS sCorreo,
+        u.nombres AS sNombres,
+        u.apellidos AS sApellidos,
+        u.imgUrl AS sImgUrl,
+        u.codigoRol AS iCodigoRol,
+        r.nombre AS sNombreRol
+    FROM usuario u
+    INNER JOIN rol r ON u.codigoRol = r.codigo
+    WHERE u.correo = @Correo
+END

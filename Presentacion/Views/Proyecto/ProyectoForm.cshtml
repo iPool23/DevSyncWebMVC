@@ -1,0 +1,60 @@
+﻿@model Entidad.EntProyecto
+
+@{
+    ViewBag.Title = Model.iCodigo == 0 ? "Crear Proyecto" : "Editar Proyecto";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mx-auto p-6 bg-white rounded shadow">
+    <h2 class="text-2xl font-bold mb-6 text-gray-800">@ViewBag.Title</h2>
+
+    @using (Html.BeginForm(
+        Model.iCodigo == 0 ? "CrearProyecto" : "EditarProyecto",
+        "Proyecto",
+        FormMethod.Post,
+        new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.iCodigo)
+
+        <div class="space-y-6">
+            <div>
+                @Html.Label("Nombre", null, new { @class = "block text-sm font-medium text-gray-700" })
+                @Html.TextBoxFor(m => m.sNombre, new { @class = "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500", required = "required" })
+                @Html.ValidationMessageFor(m => m.sNombre, "", new { @class = "text-red-500 text-sm mt-1" })
+            </div>
+
+            @if (Model.iCodigo == 0)
+            {
+                <div>
+                    @Html.Label("Nombre del Equipo", null, new { @class = "block text-sm font-medium text-gray-700" })
+                    <input type="text" name="NombreEquipo" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500" required />
+                </div>
+            }
+
+            <div>
+                @Html.Label("Descripcion", null, new { @class = "block text-sm font-medium text-gray-700" })
+                @Html.TextAreaFor(m => m.sDescripcion, new { @class = "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500" })
+                @Html.ValidationMessageFor(m => m.sDescripcion, "", new { @class = "text-red-500 text-sm mt-1" })
+            </div>
+
+            <div>
+                @Html.Label("Imagen", null, new { @class = "block text-sm font-medium text-gray-700" })
+                @Html.TextBoxFor(m => m.ImgFile, new { type = "file", @class = "mt-1 block w-full text-sm text-gray-500" })
+            </div>
+
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div class="text-red-500">
+                    @Html.ValidationSummary()
+                </div>
+            }
+
+            <div>
+                <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    Guardar
+                </button>
+            </div>
+        </div>
+    }
+</div>

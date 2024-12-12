@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 using Datos;
 using Entidad;
@@ -8,6 +9,7 @@ namespace Negocio
     public class NegProyecto
     {
         private DatProyecto objDatos = new DatProyecto();
+        private NegUsuario negUsuario = new NegUsuario();
 
         public List<EntProyecto> ObtenerProyectosPorUsuario(int codigoUsuario)
         {
@@ -44,14 +46,36 @@ namespace Negocio
             return objDatos.ObtenerUsuariosPorProyecto(proyectoId);
         }
 
-        public void AgregarUsuarioAProyecto(int codigoProyecto, int codigoUsuario, int codigoRol)
-        {
-            objDatos.AgregarUsuarioAProyecto(codigoProyecto, codigoUsuario, codigoRol);
-        }
-
         public bool UsuarioEstaEnProyecto(int codigoProyecto, int codigoUsuario)
         {
             return objDatos.UsuarioEstaEnProyecto(codigoProyecto, codigoUsuario);
+        }
+
+        public void AgregarUsuarioAProyecto(int codigoProyecto, int codigoUsuario, int codigoRol)
+        {
+            var equipo = objDatos.ObtenerEquipoDeProyecto(codigoProyecto);
+            if (equipo == null)
+                throw new Exception("El proyecto no tiene un equipo asignado.");
+
+            // Agregar usuario al equipo
+            negUsuario.AgregarUsuarioAEquipo(equipo.iCodigo, codigoUsuario);
+
+            // Asignar rol en el proyecto
+            objDatos.AsignarRolUsuarioEnProyecto(codigoProyecto, codigoUsuario, codigoRol);
+        }
+
+        public void AsignarRolUsuarioEnProyecto( int codigoProyecto, int codigoUsuario, int codigoRol)
+        {
+            objDatos.AsignarRolUsuarioEnProyecto(codigoProyecto, codigoUsuario, codigoRol);
+        }
+
+        public void EliminarUsuarioDeProyecto(int proyectoId, int usuarioId)
+        {
+            var equipo = objDatos.ObtenerEquipoDeProyecto(proyectoId);
+            if (equipo == null)
+                throw new Exception("El proyecto no tiene un equipo asignado.");
+
+            objDatos.EliminarUsuarioDeEquipoYProyecto(equipo.iCodigo, usuarioId, proyectoId);
         }
 
     }

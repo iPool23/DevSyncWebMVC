@@ -1,0 +1,153 @@
+﻿@model Entidad.EntProyecto
+@{
+    ViewBag.Title = "Gestionar Usuarios del Proyecto";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var usuariosEquipo = ViewBag.UsuariosEquipo as List<Entidad.EntUsuario>;
+    var roles = new List<SelectListItem>
+    {
+        new SelectListItem { Value = "2", Text = "Desarrollador" },
+        new SelectListItem { Value = "3", Text = "Líder de Proyecto" },
+        new SelectListItem { Value = "4", Text = "Líder de Sprint" },
+        new SelectListItem { Value = "5", Text = "Product Owner" },
+        new SelectListItem { Value = "6", Text = "Reader" },
+        new SelectListItem { Value = "7", Text = "User" }
+    };
+}
+
+<section class="container mx-auto p-6">
+    <h2 class="text-2xl font-semibold text-white mb-6">Gestionar Usuarios del Proyecto</h2>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-6">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+
+    <div class="bg-white shadow-md rounded-lg p-6 mb-6">
+        <h3 class="text-lg font-medium text-gray-800 mb-4">Agregar Usuario al Proyecto</h3>
+        <form action="@Url.Action("AgregarUsuarioProyecto", "Proyecto")" method="post" class="space-y-4">
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.iCodigo)
+            <div>
+                <label for="CorreoUsuario" class="block text-sm font-medium text-gray-600">Correo Electrónico</label>
+                <input type="email" name="CorreoUsuario" class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm" required />
+            </div>
+            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md shadow-sm">
+                Agregar Usuario
+            </button>
+        </form>
+    </div>
+
+    <div class="overflow-hidden border border-gray-200 rounded-lg shadow">
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th class="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase tracking-wider">Usuario</th>
+                    <th class="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase tracking-wider">Correo</th>
+                    <th class="px-6 py-3 text-left text-sm font-medium text-gray-600 uppercase tracking-wider">Rol</th>
+                    <th class="px-6 py-3 text-center text-sm font-medium text-gray-600 uppercase tracking-wider">Acciones</th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200 text-blue-900">
+                @if (usuariosEquipo != null && usuariosEquipo.Any())
+                {
+                    foreach (var usuario in usuariosEquipo)
+                    {
+                        <tr>
+                            <td class="px-6 py-4">@usuario.sNombreUsuario</td>
+                            <td class="px-6 py-4">@usuario.sCorreo</td>
+                            <td class="px-6 py-4">
+                                <select class="form-select mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rolSelector"
+                                        data-usuario-id="@usuario.iCodigo" 
+                                        data-proyecto-id="@Model.iCodigo">
+                                    @foreach (var rol in roles)
+                                    {
+                                        <option value="@rol.Value" @(rol.Value == usuario.eCodigoRol.iCodigo.ToString() ? "selected" : "")>@rol.Text</option>
+                                    }
+                                </select>
+                            </td>
+                            <td class="px-6 py-4 text-center">
+                                <button class="eliminarUsuario text-red-600 hover:text-red-800"
+                                        data-usuario-id="@usuario.iCodigo" 
+                                        data-proyecto-id="@Model.iCodigo">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="4" class="px-6 py-4 text-center text-gray-600">No hay usuarios en el equipo</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('.rolSelector').change(function () {
+                var usuarioId = $(this).data('usuario-id');
+                var proyectoId = $(this).data('proyecto-id');
+                var nuevoRol = $(this).val();
+                $.ajax({
+                    url: '@Url.Action("CambiarRolUsuarioProyecto", "Proyecto")',
+                    type: 'POST',
+                    data: {
+                        proyectoId: proyectoId,
+                        usuarioId: usuarioId,
+                        nuevoRol: nuevoRol
+                    },
+                    success: function (result) {
+                        if (result.success) {
+                            toastr.success('Rol actualizado correctamente');
+                        } else {
+                            toastr.error(result.message || 'Error al actualizar el rol');
+                        }
+                    },
+                    error: function () {
+                        toastr.error('Error al comunicarse con el servidor');
+                    }
+                });
+            });
+
+            $('.eliminarUsuario').click(function () {
+                if (confirm('¿Está seguro que desea eliminar este usuario del proyecto?')) {
+                    var usuarioId = $(this).data('usuario-id');
+                    var proyectoId = $(this).data('proyecto-id');
+                    $.ajax({
+                        url: '@Url.Action("EliminarUsuarioProyecto", "Proyecto")',
+                        type: 'POST',
+                        data: {
+                            proyectoId: proyectoId,
+                            usuarioId: usuarioId
+                        },
+                        success: function (result) {
+                            if (result.success) {
+                                toastr.success('Usuario eliminado del proyecto');
+                                $(this).closest('tr').remove();
+                            } else {
+                                toastr.error(result.message || 'Error al eliminar el usuario');
+                            }
+                        },
+                        error: function () {
+                            toastr.error('Error al comunicarse con el servidor');
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}

@@ -195,19 +195,21 @@ namespace Datos
                     {
                         while (reader.Read())
                         {
+                            var rolProyecto = reader["iCodigoRol"] != DBNull.Value ? new EntRol
+                            {
+                                iCodigo = (int)reader["iCodigoRol"],
+                                sNombre = reader["sNombreRol"].ToString()
+                            } : new EntRol { sNombre = "Sin rol asignado" };
+
                             usuarios.Add(new EntUsuario
                             {
-                                iCodigo = (int)reader["codigo"],
-                                sNombreUsuario = reader["nombreUsuario"].ToString(),
-                                sCorreo = reader["correo"].ToString(),
-                                sNombres = reader["nombres"].ToString(),
-                                sApellidos = reader["apellidos"].ToString(),
-                                sImgUrl = reader["imgUrl"].ToString(),
-                                eCodigoRol = new EntRol
-                                {
-                                    iCodigo = (int)reader["codigoRol"],
-                                    sNombre = reader["nombreRol"].ToString()
-                                }
+                                iCodigo = (int)reader["iCodigo"],
+                                sNombreUsuario = reader["sNombreUsuario"].ToString(),
+                                sCorreo = reader["sCorreo"].ToString(),
+                                sNombres = reader["sNombres"].ToString(),
+                                sApellidos = reader["sApellidos"].ToString(),
+                                sImgUrl = reader["sImgUrl"]?.ToString(),
+                                eCodigoRol = rolProyecto
                             });
                         }
                     }
@@ -265,6 +267,91 @@ namespace Datos
                     connection.Open();
                     int count = (int)command.ExecuteScalar();
                     return count > 0;
+                }
+            }
+        }
+
+        public EntEquipo ObtenerEquipoDeProyecto(int codigoProyecto)
+        {
+            using (SqlConnection conn = new SqlConnection(DatConexion.sCadena))
+            {
+                conn.Open();
+                string query = @"
+                    SELECT e.* 
+                    FROM equipo e
+                    INNER JOIN proyecto p ON p.codigoEquipo = e.codigo
+                    WHERE p.codigo = @CodigoProyecto";
+
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@CodigoProyecto", codigoProyecto);
+
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        return new EntEquipo
+                        {
+                            iCodigo = (int)reader["codigo"],
+                            sNombre = reader["nombre"].ToString(),
+                            sImgUrl = reader["imgUrl"] != DBNull.Value ? reader["imgUrl"].ToString() : null
+                        };
+                    }
+                }
+            }
+            return null;
+        }
+
+        public void AsignarRolUsuarioEnProyecto(int codigoProyecto, int codigoUsuario, int codigoRol)
+        {
+            using (SqlConnection connection = new SqlConnection(DatConexion.sCadena))
+            {
+                using (SqlCommand command = new SqlCommand("SP_AsignarRolUsuarioEnProyecto", connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@CodigoProyecto", codigoProyecto);
+                    command.Parameters.AddWithValue("@CodigoUsuario", codigoUsuario);
+                    command.Parameters.AddWithValue("@CodigoRol", codigoRol);
+
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void EliminarUsuarioDeEquipoYProyecto(int equipoId, int usuarioId, int proyectoId)
+        {
+            using (SqlConnection connection = new SqlConnection(DatConexion.sCadena))
+            {
+                connection.Open();
+                using (var transaction = connection.BeginTransaction())
+                {
+                    try
+                    {
+                        // Eliminar el rol del usuario en el proyecto
+                        string deleteRolQuery = "DELETE FROM rol_proyecto WHERE codigoProyecto = @ProyectoId AND codigoUsuario = @UsuarioId";
+                        using (SqlCommand cmd = new SqlCommand(deleteRolQuery, connection, transaction))
+                        {
+                            cmd.Parameters.AddWithValue("@ProyectoId", proyectoId);
+                            cmd.Parameters.AddWithValue("@UsuarioId", usuarioId);
+                            cmd.ExecuteNonQuery();
+                        }
+
+                        // Eliminar el usuario del equipo
+                        string deleteEquipoQuery = "DELETE FROM equipo_usuario WHERE codigoEquipo = @EquipoId AND codigoUsuario = @UsuarioId";
+                        using (SqlCommand cmd = new SqlCommand(deleteEquipoQuery, connection, transaction))
+                        {
+                            cmd.Parameters.AddWithValue("@EquipoId", equipoId);
+                            cmd.Parameters.AddWithValue("@UsuarioId", usuarioId);
+                            cmd.ExecuteNonQuery();
+                        }
+
+                        transaction.Commit();
+                    }
+                    catch
+                    {
+                        transaction.Rollback();
+                        throw;
+                    }
                 }
             }
         }

@@ -1,4 +1,5 @@
-﻿using Datos;
+﻿using System.Collections.Generic;
+using Datos;
 using Entidad;
 
 namespace Negocio
@@ -22,5 +23,14 @@ namespace Negocio
             return datUsuario.ObtenerUsuarioPorCorreo(correo);
         }
 
+        public bool UsuarioEstaEnEquipo(int codigoEquipo, int codigoUsuario)
+        {
+            return datUsuario.UsuarioEstaEnEquipo(codigoEquipo, codigoUsuario);
+        }
+
+        public void AgregarUsuarioAEquipo(int codigoEquipo, int codigoUsuario)
+        {
+            datUsuario.AgregarUsuarioAEquipo(codigoEquipo, codigoUsuario);
+        }
     }
 }

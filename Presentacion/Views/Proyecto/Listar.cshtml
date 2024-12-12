@@ -1,0 +1,169 @@
+﻿@model IEnumerable<Entidad.EntProyecto>
+
+@{
+    ViewBag.Title = "Proyectos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!-- Project List -->
+<main class="container-body -ml-24">
+    <div>
+        <!-- Breadcrumb -->
+        <nav class="mb-6 rounded">
+            <ol class="flex items-center space-x-2 text-gray-400">
+                <li>
+                    <a href="@Url.Action("Index", "ProductOwner")" class="flex items-center hover:text-white">
+                        <i class="fas fa-house-user mr-2"></i>
+                        Panel de Control
+                    </a>
+                </li>
+                <li>
+                    <i class="fas fa-angle-right"></i>
+                </li>
+                <li class="font-semibold text-white">
+                    Mis Proyectos
+                </li>
+            </ol>
+            <div class="-mt-8 mr-4 text-right">
+                <a href="@Url.Action("CrearProyecto", "Proyecto")" class="bg-blue-500 hover:bg-blue-600 text-white text-sm font-semibold py-2 px-4 rounded">
+                    Crear Nuevo Proyecto
+                </a>
+            </div>
+        </nav>
+    </div>
+    <div class="content-scroll space-y-4">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            foreach (var proyecto in Model)
+            {
+                <div class="mt-4 bg-white shadow-lg rounded-lg flex items-center overflow-hidden" data-proyecto-id="@proyecto.iCodigo">
+                    <div class="flex-shrink-0 h-48 w-48">
+                        <img class="h-full w-full object-cover" src="@proyecto.sImgUrl" alt="@proyecto.sNombre">
+                    </div>
+                    <div class="flex-grow p-6">
+                        <div class="uppercase tracking-wide text-sm text-gray-500 font-semibold mb-1">
+                            Código: @proyecto.iCodigo
+                        </div>
+                        <h2 class="text-2xl font-bold text-gray-900 leading-snug mb-2">
+                            @proyecto.sNombre
+                        </h2>
+                        <p class="text-gray-600 mb-4">@proyecto.sDescripcion</p>
+                        <div class="grid grid-cols-2 gap-4 text-sm text-gray-700">
+                            <div class="flex items-center">
+                                <i class="fas fa-tachometer-alt text-gray-500 w-5 mr-2"></i>
+                                Progreso: @proyecto.iProgreso%
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-calendar-alt text-gray-500 w-5 mr-2"></i>
+                                @if (proyecto.dtFechaInicio != DateTime.MinValue && proyecto.dtFechaFin != DateTime.MinValue)
+                                {
+                                    @($"{proyecto.dtFechaInicio.ToShortDateString()} - {proyecto.dtFechaFin.ToShortDateString()}")
+                                }
+                                else
+                                {
+                                    <text>Fechas no definidas</text>
+                                }
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-code text-gray-500 w-5 mr-2"></i>
+                                Líder: @(proyecto.eCodigoLider?.sNombres ?? "No asignado")
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-flag text-gray-500 w-5 mr-2"></i>
+                                Estado: @(proyecto.eCodigoEstado?.sNombre ?? "No definido")
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-users text-gray-500 w-5 mr-2"></i>
+                                Equipo: @(proyecto.eCodigoEquipo?.sNombre ?? "No asignado")
+                            </div>
+                        </div>
+                        <div class="mt-4 flex flex-wrap gap-2">
+                            <a href="@Url.Action("EditarProyecto", "Proyecto", new { id = proyecto.iCodigo })"
+                               class="flex-1 px-4 py-2 text-center rounded text-white bg-blue-500 hover:bg-blue-700">
+                                Actualizar
+                            </a>
+                            <a href="javascript:void(0);"
+                               class="flex-1 px-4 py-2 text-center rounded text-white bg-red-500 hover:bg-red-700"
+                               onclick="openDeleteModal(@proyecto.iCodigo);">
+                                Eliminar
+                            </a>
+                            <a href="@Url.Action("EditarEquipo", "Proyecto", new { id = proyecto.iCodigo })"
+                               class="flex-1 px-4 py-2 text-center rounded text-white bg-green-500 hover:bg-green-700">
+                                Editar Equipo
+                            </a>
+
+                            <a href="@Url.Action("EditarUsuariosEquipo", "Proyecto", new { id = proyecto.iCodigo })"
+                               class="flex-1 px-4 py-2 text-center rounded text-white bg-yellow-500 hover:bg-yellow-700">
+                                Editar Usuarios
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+
+    <!-- Modal de Confirmación -->
+    <div id="confirmDeleteModal" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 hidden">
+        <div class="bg-white rounded-lg shadow-lg w-1/3">
+            <div class="px-6 py-4">
+                <h2 class="text-xl font-semibold text-gray-800">Confirmar Eliminación</h2>
+                <p class="mt-2 text-gray-600">¿Estás seguro de que deseas eliminar este proyecto?</p>
+            </div>
+            <div class="px-6 py-4 bg-gray-100 flex justify-end">
+                <button id="cancelDeleteBtn" class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 mr-2">Cancelar</button>
+                <button id="confirmDeleteBtn" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</main>
+
+@section Scripts {
+    <script>
+            var proyectoIdEliminar = 0;
+
+            function openDeleteModal(proyectoId) {
+                proyectoIdEliminar = proyectoId;
+                document.getElementById('confirmDeleteModal').classList.remove('hidden');
+            }
+
+            document.getElementById('cancelDeleteBtn').addEventListener('click', function () {
+                proyectoIdEliminar = 0;
+                document.getElementById('confirmDeleteModal').classList.add('hidden');
+            });
+
+            document.getElementById('confirmDeleteBtn').addEventListener('click', function () {
+                // Obtener el token de anti-falsificación
+                var token = $('[name=__RequestVerificationToken]').val();
+
+                var data = {
+                    id: proyectoIdEliminar,
+                    __RequestVerificationToken: token
+                };
+
+                $.ajax({
+                    url: '@Url.Action("EliminarProyecto", "Proyecto")',
+                    type: 'POST',
+                    data: data,
+                    success: function (response) {
+                        if (response.success) {
+                            var elementoAEliminar = document.querySelector(`[data-proyecto-id="${proyectoIdEliminar}"]`);
+                            if (elementoAEliminar) {
+                                elementoAEliminar.remove();
+                            } else {
+                                console.warn('No se encontró el elemento en el DOM');
+                            }
+
+                            proyectoIdEliminar = 0;
+                            document.getElementById('confirmDeleteModal').classList.add('hidden');
+                        } else {
+                            console.log('Error al eliminar proyecto:', response.message);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.log('Respuesta completa del servidor:', xhr.responseText);
+                    }
+                });
+            });
+    </script>
+}
